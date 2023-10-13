@@ -1,0 +1,15 @@
+.section-bingo {
+    table {
+        border-collapse: collapse;
+        
+        td {
+            width: 7rem;
+            border: 1px solid $black;
+            font-size: .8rem;
+
+            &:hover {
+                cursor: url('@/assets/img/rosin.png') 4 12, auto;
+            }
+        }
+    }
+}

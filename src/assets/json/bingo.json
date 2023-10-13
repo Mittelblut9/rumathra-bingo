@@ -1,0 +1,171 @@
+{
+    "bingo": [
+        [
+            {
+                "text": "B",
+                "fixed": true
+            },
+            {
+                "text": "I",
+                "fixed": true
+            },
+            {
+                "text": "N",
+                "fixed": true
+            },
+            {
+                "text": "G",
+                "fixed": true
+            },
+            {
+                "text": "O",
+                "fixed": true
+            }
+        ],
+        [
+            {
+                "text": "Es wird etwas mit Weißwein abgelöscht",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "Schwarz/Weiß Blende",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "Klimbim Kladderadatsch",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "Tuten und Blasen/Damokles",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "Von dem Stress ind er Küche kriegen die Testesser nichts mit",
+                "color": "yellow",
+                "selected": false
+            }
+        ],
+        [
+            {
+                "text": "Sose x5",
+                "color": "yellow",
+                "selected": false,
+                "muliSelectNumber": 4,
+                "multiSelectOptions": {
+                    "color2": "red",
+                    "color3": "purple"
+                }
+            },
+            {
+                "text": "Die Inhaber sind verschuldet",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "Flo oder Willi kommt",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "Restaurant hat noch offen",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "Frank macht einen schlechten Witz",
+                "color": "yellow",
+                "selected": false
+            }
+        ],
+        [
+            {
+                "text": "Es weint jemand",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "Nach dem 1. Testessen wird geglaubt man habe sehr gut abgeschnitten",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "5er Sub Bombe kommt rein",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "Frank braucht mal 5 Minuten",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "Mega x3",
+                "color": "yellow",
+                "selected": false,
+                "muliSelectNumber": 2,
+                "multiSelectOptions": {
+                    "color2": "red",
+                    "color3": "purple"
+                }
+            }
+        ],
+        [
+            {
+                "text": "Es werden Tütenprodukte verwendet",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "Rosin zwinkert",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "Die Scheiße ist so klein ich kann das nicht lesen, sollte aber von der Länge passen",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "Rosin wird touchy",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "Bei Rosin kickts",
+                "color": "yellow",
+                "selected": false
+            }
+        ],
+        [
+            {
+                "text": "Rosin geht im eigenen Restaurant kochen",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "Seine Sterne werden erwähnt",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "Ein Testesser sagt das Fleisch sei trocken",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "Die Rezepte kann man auf Kabeleins.de nachlesen",
+                "color": "yellow",
+                "selected": false
+            },
+            {
+                "text": "Die Wände werden grau gestrichen",
+                "color": "yellow",
+                "selected": false
+            }
+        ]
+    ]
+}
