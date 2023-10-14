@@ -74,6 +74,61 @@ export default {
                 target.style.backgroundColor = !selected && multiSelectNumber === 0 ? '' : color;	
             }
 
+            this.checkIfBingo((isBingo) => {
+                if(isBingo) {
+                    console.log('BINGO!');
+                }
+            });
+        },
+
+        checkIfBingo(cb) {
+            const table = document.querySelector('.section-bingo table');
+            const tableRows = table.querySelectorAll('tr');
+            const tableColumns = table.querySelectorAll('td');
+
+            let isBingo = false;
+
+            tableRows.forEach(row => {
+                if(isBingo) {
+                    return;
+                }
+                const rowCells = row.querySelectorAll('td');
+                const rowCellsLength = rowCells.length;
+
+                let rowCellsSelected = 0;
+                rowCells.forEach(cell => {
+                    const input = cell.querySelector('input');
+                    const selected = input.dataset.selected === 'true';
+                    if(selected) {
+                        rowCellsSelected++;
+                    }
+                });
+
+                isBingo = rowCellsSelected === rowCellsLength;
+
+                cb(isBingo);
+            });
+
+            tableColumns.forEach(column => {
+                if(isBingo) {
+                    return;
+                }
+                const columnCells = table.querySelectorAll(`td:nth-child(${column.cellIndex + 1})`);
+                const columnCellsLength = columnCells.length - 1;
+
+                let columnCellsSelected = 0;
+                columnCells.forEach(cell => {
+                    const input = cell.querySelector('input');
+                    const selected = input.dataset.selected === 'true';
+                    if(selected) {
+                        columnCellsSelected++;
+                    }
+                });
+
+                isBingo = columnCellsSelected === columnCellsLength;
+                cb(isBingo);
+            });
+
         }
     }
 };
