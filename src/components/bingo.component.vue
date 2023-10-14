@@ -29,6 +29,7 @@ export default {
     data() {
         return {
             tableData: tableData.bingo,
+            bingoTriggered: false
         };
     },
     components: {
@@ -94,6 +95,10 @@ export default {
 
             this.checkIfBingo((isBingo) => {
                 if(isBingo) {
+                    if(this.bingoTriggered) {
+                        return;
+                    }
+                    this.bingoTriggered = true;
                     this.animateBingo();
                 }
             });
@@ -163,7 +168,24 @@ export default {
                 return firstCellSelected && secondCellSelected && thirdCellSelected && fourthCellSelected && fifthCellSelected;
             };
 
+            const diagonale2 = () => {
+                const firstCell = table.querySelector('tr:nth-child(2) td:nth-child(5)');
+                const secondCell = table.querySelector('tr:nth-child(3) td:nth-child(4)');
+                const thirdCell = table.querySelector('tr:nth-child(4) td:nth-child(3)');
+                const fourthCell = table.querySelector('tr:nth-child(5) td:nth-child(2)');
+                const fifthCell = table.querySelector('tr:nth-child(6) td:nth-child(1)');
+
+                const firstCellSelected = firstCell.querySelector('input').dataset.selected === 'true';
+                const secondCellSelected = secondCell.querySelector('input').dataset.selected === 'true';
+                const thirdCellSelected = thirdCell.querySelector('input').dataset.selected === 'true';
+                const fourthCellSelected = fourthCell.querySelector('input').dataset.selected === 'true';
+                const fifthCellSelected = fifthCell.querySelector('input').dataset.selected === 'true';
+
+                return firstCellSelected && secondCellSelected && thirdCellSelected && fourthCellSelected && fifthCellSelected;
+            };
+
             cb(diagonale());
+            cb(diagonale2());
         },
 
         animateBingo() {
