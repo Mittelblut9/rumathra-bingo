@@ -3,9 +3,13 @@ name: Website Deployment
 on:
     push:
         branches: [main]
+  
+permissions:
+  contents: write
 
 jobs:
     deploy:
+        concurrency: ci-${{ github.ref }}
         runs-on: ubuntu-latest
 
         steps:
