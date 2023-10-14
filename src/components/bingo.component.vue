@@ -67,7 +67,12 @@ export default {
 
             input.dataset.selected = selected;
             input.dataset.timesPressed = resetTimesPressed ? 0 : timesPressed + 1;
-            target.style.backgroundColor = (selected && multiSelectNumber === 0) || resetColor ? '' : color;	
+
+            if(resetColor) {
+                target.style.backgroundColor = '';
+            }else {
+                target.style.backgroundColor = !selected && multiSelectNumber === 0 ? '' : color;	
+            }
 
         }
     }
