@@ -1,4 +1,11 @@
 {
+    "options": {
+        "color0": "yellow",
+        "color1": "red",
+        "color2": "purple",
+        "color3": "blue",
+        "color4": "green"
+    },
     "bingo": [
         [
             {
@@ -54,13 +61,7 @@
                 "text": "Sose x5",
                 "color": "yellow",
                 "selected": false,
-                "multiSelectNumber": 4,
-                "multiSelectOptions": {
-                    "color1": "red",
-                    "color2": "purple",
-                    "color3": "blue",
-                    "color4": "green"
-                }
+                "multiSelectNumber": 5
             },
             {
                 "text": "Die Inhaber sind verschuldet",
@@ -108,11 +109,7 @@
                 "text": "Mega x3",
                 "color": "yellow",
                 "selected": false,
-                "multiSelectNumber": 2,
-                "multiSelectOptions": {
-                    "color1": "red",
-                    "color2": "purple"
-                }
+                "multiSelectNumber": 3
             }
         ],
         [

@@ -34,44 +34,58 @@ export default {
         selectTarget(e) {
             const target = e.target;
             const input = target.querySelector('input');
+            let targetDiv;
 
             const fixed = input.dataset.fixed === 'true';
             if(fixed) {
                 return;
             }
             
-            const timesPressed = parseInt(input.dataset.timesPressed);
+            let timesPressed = parseInt(input.dataset.timesPressed);
+            let timesRounds = parseInt(input.dataset.timesRounds);
+
             let selected = input.dataset.selected === 'true';
             let color = input.dataset.color;
             let resetColor = false;
             let resetTimesPressed = false;
 
             const multiSelectNumber = parseInt(input.dataset.multiSelectNumber);
-            let multiSelectOptions = [];
-
-            if(multiSelectNumber > 0) {
-                multiSelectOptions = JSON.parse(input.dataset?.multiSelectOptions);
-            }
+            const isMultiSelect = multiSelectNumber > 0;
+            const multiSelectOptions = tableData.options;
             
-            if (multiSelectNumber > 0 && timesPressed > 0)  {
-                color = multiSelectOptions[`color${timesPressed}`];
-               
-                if(!color) {
-                    selected = false;
-                    resetColor = true;
-                    resetTimesPressed = true;
-                }
+            if (isMultiSelect && timesPressed > 0)  {
+                color = multiSelectOptions[`color${timesRounds}`];
             }else {
                 selected = !selected;
             }
 
+            if(isMultiSelect) {
+                selected = false;
+                targetDiv = target.querySelector(`.bingo-box-multi--item input[data-multi-select-number="${timesPressed + 1}"]`);
+                if(!targetDiv) {
+                    targetDiv = target.querySelector('.bingo-box-multi--item input[data-multi-select-number="1"]');
+                    color = multiSelectOptions[`color${timesRounds + 1}`];
+                    input.dataset.timesRounds = timesRounds + 1;
+                    timesPressed = 0;
+                }
+
+                const nextDivExists = target.querySelector(`.bingo-box-multi--item input[data-multi-select-number="${timesPressed + 2}"]`);
+                if(!nextDivExists) {
+                    selected = true;
+                }
+
+                targetDiv = targetDiv.parentElement;
+            }else {
+                targetDiv = target;
+            }
+
+            targetDiv.style.backgroundColor = !selected && !isMultiSelect ? '' : color;
             input.dataset.selected = selected;
             input.dataset.timesPressed = resetTimesPressed ? 0 : timesPressed + 1;
 
+
             if(resetColor) {
-                target.style.backgroundColor = '';
-            }else {
-                target.style.backgroundColor = !selected && multiSelectNumber === 0 ? '' : color;	
+                targetDiv.style.backgroundColor = '';
             }
 
             this.checkIfBingo((isBingo) => {
@@ -129,7 +143,24 @@ export default {
                 cb(isBingo);
             });
 
-        }
+            const diagonale = () => {
+                const firstCell = table.querySelector('tr:nth-child(2) td:first-child');
+                const secondCell = table.querySelector('tr:nth-child(3) td:nth-child(2)');
+                const thirdCell = table.querySelector('tr:nth-child(4) td:nth-child(3)');
+                const fourthCell = table.querySelector('tr:nth-child(5) td:nth-child(4)');
+                const fifthCell = table.querySelector('tr:nth-child(6) td:nth-child(5)');
+
+                const firstCellSelected = firstCell.querySelector('input').dataset.selected === 'true';
+                const secondCellSelected = secondCell.querySelector('input').dataset.selected === 'true';
+                const thirdCellSelected = thirdCell.querySelector('input').dataset.selected === 'true';
+                const fourthCellSelected = fourthCell.querySelector('input').dataset.selected === 'true';
+                const fifthCellSelected = fifthCell.querySelector('input').dataset.selected === 'true';
+
+                return firstCellSelected && secondCellSelected && thirdCellSelected && fourthCellSelected && fifthCellSelected;
+            };
+
+            cb(diagonale());
+        },
     }
 };
 </script>
