@@ -54,10 +54,12 @@
                 "text": "Sose x5",
                 "color": "yellow",
                 "selected": false,
-                "muliSelectNumber": 4,
+                "multiSelectNumber": 4,
                 "multiSelectOptions": {
-                    "color2": "red",
-                    "color3": "purple"
+                    "color1": "red",
+                    "color2": "purple",
+                    "color3": "blue",
+                    "color4": "green"
                 }
             },
             {
@@ -106,10 +108,10 @@
                 "text": "Mega x3",
                 "color": "yellow",
                 "selected": false,
-                "muliSelectNumber": 2,
+                "multiSelectNumber": 2,
                 "multiSelectOptions": {
-                    "color2": "red",
-                    "color3": "purple"
+                    "color1": "red",
+                    "color2": "purple"
                 }
             }
         ],
