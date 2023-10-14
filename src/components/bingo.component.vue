@@ -1,19 +1,23 @@
 <template>
     <section class="section-bingo">
-        <table>
-            <tr v-for="tableData in tableData" :key="tableData">
-                <td v-for="tableContent in tableData" :key="tableContent" @click="selectTarget">
-                    <BingoBoxAtom 
-                        :fixed="tableContent.fixed" 
-                        :selected="tableContent.selected" 
-                        :text="tableContent.text" 
-                        :color="tableContent.color"
-                        :multiSelectNumber="tableContent.multiSelectNumber"
-                        :multiSelectOptions="JSON.stringify(tableContent?.multiSelectOptions)"
-                    />
-                </td>
-            </tr>
-        </table>
+        <div class="section-bingo--animation" id="bingo-container">
+            <img src="@/assets/gif/winning.gif" alt="bingo" style="visibility: hidden;"/>
+            <h1>BINGO!!</h1>
+            <table>
+                <tr v-for="tableData in tableData" :key="tableData">
+                    <td v-for="tableContent in tableData" :key="tableContent" @click="selectTarget">
+                        <BingoBoxAtom 
+                            :fixed="tableContent.fixed" 
+                            :selected="tableContent.selected" 
+                            :text="tableContent.text" 
+                            :color="tableContent.color"
+                            :multiSelectNumber="tableContent.multiSelectNumber"
+                            :multiSelectOptions="JSON.stringify(tableContent?.multiSelectOptions)"
+                        />
+                    </td>
+                </tr>
+            </table>
+        </div>
     </section>
 </template>
 
@@ -90,7 +94,7 @@ export default {
 
             this.checkIfBingo((isBingo) => {
                 if(isBingo) {
-                    console.log('BINGO!');
+                    this.animateBingo();
                 }
             });
         },
@@ -161,6 +165,18 @@ export default {
 
             cb(diagonale());
         },
+
+        animateBingo() {
+            const bingoContainer = document.querySelector('.section-bingo--animation');
+            bingoContainer.classList.add('section-bingo--animation--active');
+
+            bingoContainer.querySelector('h1').style.opacity = 1;
+
+            setTimeout(() => {
+                bingoContainer.querySelector('h1').style.opacity = 0;
+                bingoContainer.classList.remove('section-bingo--animation--active');
+            }, 5000);
+        }
     }
 };
 </script>
