@@ -1,19 +1,23 @@
 name: Linter
+
 on:
-    push:
-        branches:
-            - **
+  pull_request_target:
+      branches: [dev, main]
+  push:
+      branches: [dev]
   
 permissions:
   contents: write
 
 jobs:
-    deploy:
-        concurrency: ci-${{ github.ref }}
+    lint:
         runs-on: ubuntu-latest
 
         steps:
             - uses: actions/checkout@v3
+              with:
+                ref: ${{ github.head_ref }}
+                fetch-depth: 0
             
             - name: Install dependencies
               run: npm install
