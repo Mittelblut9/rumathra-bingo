@@ -1,4 +1,6 @@
-# vue3-template
+# Rumathra Bingo
+
+This is a bingo game for the german streamer <a href="//twitch.tv/rumathra">Rumathra</a>.
 
 ## Project setup
 ```
@@ -19,6 +21,3 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
