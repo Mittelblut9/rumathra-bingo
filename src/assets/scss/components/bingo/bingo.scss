@@ -1,6 +1,10 @@
 .section-bingo {
     table {
         border-collapse: collapse;
+
+        th {
+            height: 3rem;
+        }
         
         td {
             width: 7rem;
