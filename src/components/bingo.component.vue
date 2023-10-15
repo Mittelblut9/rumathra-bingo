@@ -54,6 +54,7 @@ export default {
             input.dataset.selected = false;
             input.dataset.timesPressed = 0;
             input.dataset.timesRounds = 0;
+            target.style.backgroundColor = '';
 
             const isMultiSelect = input.dataset.multiSelectNumber > 0;
             if(!isMultiSelect) {
