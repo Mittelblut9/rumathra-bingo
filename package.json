@@ -10,7 +10,8 @@
   "scripts": {
       "serve": "vue-cli-service serve",
       "build": "vue-cli-service build",
-      "lint": "vue-cli-service lint && stylelint **/*.{css,scss,vue}"
+      "lint": "vue-cli-service lint && stylelint **/*.{css,scss,vue}",
+      "format": "eslint --fix --ext .js,.vue ./"
   },
   "dependencies": {
       "sass": "^1.69.3",

@@ -20,8 +20,8 @@
                             :multiSelectOptions="JSON.stringify(tableContent?.multiSelectOptions)"
                         />
                     </td>
-                </tr>
-            </table>
+                                </tr>
+                            </table>
         </div>
     </section>
 </template>
