@@ -9,7 +9,7 @@ updates:
       directory: '/' # Location of package manifests
       schedule:
           interval: 'daily'
-      target-branch: 'main'
+      target-branch: 'dev'
       labels:
           - 'dependencies'
       commit-message:
