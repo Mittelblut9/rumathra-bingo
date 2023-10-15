@@ -9,161 +9,89 @@
     "bingo": [
         [
             {
-                "text": "B",
-                "fixed": true
+                "text": "Es wird etwas mit Weißwein abgelöscht"
             },
             {
-                "text": "I",
-                "fixed": true
+                "text": "Schwarz/Weiß Blende"
             },
             {
-                "text": "N",
-                "fixed": true
+                "text": "Klimbim Kladderadatsch"
             },
             {
-                "text": "G",
-                "fixed": true
+                "text": "Tuten und Blasen/Damokles"
             },
             {
-                "text": "O",
-                "fixed": true
-            }
-        ],
-        [
-            {
-                "text": "Es wird etwas mit Weißwein abgelöscht",
-                "color": "yellow",
-                "selected": false
-            },
-            {
-                "text": "Schwarz/Weiß Blende",
-                "color": "yellow",
-                "selected": false
-            },
-            {
-                "text": "Klimbim Kladderadatsch",
-                "color": "yellow",
-                "selected": false
-            },
-            {
-                "text": "Tuten und Blasen/Damokles",
-                "color": "yellow",
-                "selected": false
-            },
-            {
-                "text": "Von dem Stress ind er Küche kriegen die Testesser nichts mit",
-                "color": "yellow",
-                "selected": false
+                "text": "Von dem Stress ind er Küche kriegen die Testesser nichts mit"
             }
         ],
         [
             {
                 "text": "Sose x5",
-                "color": "yellow",
-                "selected": false,
                 "multiSelectNumber": 5
             },
             {
-                "text": "Die Inhaber sind verschuldet",
-                "color": "yellow",
-                "selected": false
+                "text": "Die Inhaber sind verschuldet"
             },
             {
-                "text": "Flo oder Willi kommt",
-                "color": "yellow",
-                "selected": false
+                "text": "Flo oder Willi kommt"
             },
             {
-                "text": "Restaurant hat noch offen",
-                "color": "yellow",
-                "selected": false
+                "text": "Restaurant hat noch offen"
             },
             {
-                "text": "Frank macht einen schlechten Witz",
-                "color": "yellow",
-                "selected": false
+                "text": "Frank macht einen schlechten Witz"
             }
         ],
         [
             {
-                "text": "Es weint jemand",
-                "color": "yellow",
-                "selected": false
+                "text": "Es weint jemand"
             },
             {
-                "text": "Nach dem 1. Testessen wird geglaubt man habe sehr gut abgeschnitten",
-                "color": "yellow",
-                "selected": false
+                "text": "Nach dem 1. Testessen wird geglaubt man habe sehr gut abgeschnitten"
             },
             {
-                "text": "5er Sub Bombe kommt rein",
-                "color": "yellow",
-                "selected": false
+                "text": "5er Sub Bombe kommt rein"
             },
             {
-                "text": "Frank braucht mal 5 Minuten",
-                "color": "yellow",
-                "selected": false
+                "text": "Frank braucht mal 5 Minuten"
             },
             {
                 "text": "Mega x3",
-                "color": "yellow",
-                "selected": false,
                 "multiSelectNumber": 3
             }
         ],
         [
             {
-                "text": "Es werden Tütenprodukte verwendet",
-                "color": "yellow",
-                "selected": false
+                "text": "Es werden Tütenprodukte verwendet"
             },
             {
-                "text": "Rosin zwinkert",
-                "color": "yellow",
-                "selected": false
+                "text": "Rosin zwinkert"
             },
             {
-                "text": "Rosin geht mit Finger in die Soße",
-                "color": "yellow",
-                "selected": false
+                "text": "Rosin geht mit Finger in die Soße"
             },
             {
-                "text": "Rosin wird touchy",
-                "color": "yellow",
-                "selected": false
+                "text": "Rosin wird touchy"
             },
             {
-                "text": "Bei Rosin kickts",
-                "color": "yellow",
-                "selected": false
+                "text": "Bei Rosin kickts"
             }
         ],
         [
             {
-                "text": "Rosin geht im eigenen Restaurant kochen",
-                "color": "yellow",
-                "selected": false
+                "text": "Rosin geht im eigenen Restaurant kochen"
             },
             {
-                "text": "Seine Sterne werden erwähnt",
-                "color": "yellow",
-                "selected": false
+                "text": "Seine Sterne werden erwähnt"
             },
             {
-                "text": "Ein Testesser sagt das Fleisch sei trocken",
-                "color": "yellow",
-                "selected": false
+                "text": "Ein Testesser sagt das Fleisch sei trocken"
             },
             {
-                "text": "Die Rezepte kann man auf Kabeleins.de nachlesen",
-                "color": "yellow",
-                "selected": false
+                "text": "Die Rezepte kann man auf Kabeleins.de nachlesen"
             },
             {
-                "text": "Die Wände werden grau gestrichen",
-                "color": "yellow",
-                "selected": false
+                "text": "Die Wände werden grau gestrichen"
             }
         ]
     ]

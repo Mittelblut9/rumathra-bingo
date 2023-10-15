@@ -4,13 +4,18 @@
             <img src="@/assets/gif/winning.gif" alt="bingo" style="visibility: hidden;"/>
             <h1>BINGO!!</h1>
             <table>
-                <tr v-for="tableData in tableData" :key="tableData">
+                <tr class="user-select-none">
+                    <th data-fixed="true">B</th>
+                    <th data-fixed="true">I</th>
+                    <th data-fixed="true">N</th>
+                    <th data-fixed="true">G</th>
+                    <th data-fixed="true">O</th>
+                </tr>
+                <tr v-for="tableData in tableData" :key="tableData" id="bingo-content">
                     <td v-for="tableContent in tableData" :key="tableContent" @click="selectTarget">
                         <BingoBoxAtom 
-                            :fixed="tableContent.fixed" 
-                            :selected="tableContent.selected" 
+                            :selected="false" 
                             :text="tableContent.text" 
-                            :color="tableContent.color"
                             :multiSelectNumber="tableContent.multiSelectNumber"
                             :multiSelectOptions="JSON.stringify(tableContent?.multiSelectOptions)"
                         />
@@ -50,7 +55,7 @@ export default {
             let timesRounds = parseInt(input.dataset.timesRounds);
 
             let selected = input.dataset.selected === 'true';
-            let color = input.dataset.color;
+            let color;
             let resetColor = false;
             let resetTimesPressed = false;
 
@@ -61,6 +66,7 @@ export default {
             if (isMultiSelect && timesPressed > 0)  {
                 color = multiSelectOptions[`color${timesRounds}`];
             }else {
+                color = multiSelectOptions['color0'];
                 selected = !selected;
             }
 
@@ -106,7 +112,7 @@ export default {
 
         checkIfBingo(cb) {
             const table = document.querySelector('.section-bingo table');
-            const tableRows = table.querySelectorAll('tr');
+            const tableRows = table.querySelectorAll('#bingo-content');
             const tableColumns = table.querySelectorAll('td');
 
             let isBingo = false;
@@ -137,7 +143,7 @@ export default {
                     return;
                 }
                 const columnCells = table.querySelectorAll(`td:nth-child(${column.cellIndex + 1})`);
-                const columnCellsLength = columnCells.length - 1;
+                const columnCellsLength = columnCells.length;
 
                 let columnCellsSelected = 0;
                 columnCells.forEach(cell => {
@@ -153,11 +159,11 @@ export default {
             });
 
             const diagonale = () => {
-                const firstCell = table.querySelector('tr:nth-child(2) td:first-child');
-                const secondCell = table.querySelector('tr:nth-child(3) td:nth-child(2)');
-                const thirdCell = table.querySelector('tr:nth-child(4) td:nth-child(3)');
-                const fourthCell = table.querySelector('tr:nth-child(5) td:nth-child(4)');
-                const fifthCell = table.querySelector('tr:nth-child(6) td:nth-child(5)');
+                const firstCell = table.querySelector('#bingo-content:nth-child(2) td:first-child');
+                const secondCell = table.querySelector('#bingo-content:nth-child(3) td:nth-child(2)');
+                const thirdCell = table.querySelector('#bingo-content:nth-child(4) td:nth-child(3)');
+                const fourthCell = table.querySelector('#bingo-content:nth-child(5) td:nth-child(4)');
+                const fifthCell = table.querySelector('#bingo-content:nth-child(6) td:nth-child(5)');
 
                 const firstCellSelected = firstCell.querySelector('input').dataset.selected === 'true';
                 const secondCellSelected = secondCell.querySelector('input').dataset.selected === 'true';
@@ -169,11 +175,11 @@ export default {
             };
 
             const diagonale2 = () => {
-                const firstCell = table.querySelector('tr:nth-child(2) td:nth-child(5)');
-                const secondCell = table.querySelector('tr:nth-child(3) td:nth-child(4)');
-                const thirdCell = table.querySelector('tr:nth-child(4) td:nth-child(3)');
-                const fourthCell = table.querySelector('tr:nth-child(5) td:nth-child(2)');
-                const fifthCell = table.querySelector('tr:nth-child(6) td:nth-child(1)');
+                const firstCell = table.querySelector('#bingo-content:nth-child(2) td:nth-child(5)');
+                const secondCell = table.querySelector('#bingo-content:nth-child(3) td:nth-child(4)');
+                const thirdCell = table.querySelector('#bingo-content:nth-child(4) td:nth-child(3)');
+                const fourthCell = table.querySelector('#bingo-content:nth-child(5) td:nth-child(2)');
+                const fifthCell = table.querySelector('#bingo-content:nth-child(6) td:nth-child(1)');
 
                 const firstCellSelected = firstCell.querySelector('input').dataset.selected === 'true';
                 const secondCellSelected = secondCell.querySelector('input').dataset.selected === 'true';
