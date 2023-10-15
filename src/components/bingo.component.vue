@@ -12,7 +12,7 @@
                     <th data-fixed="true">O</th>
                 </tr>
                 <tr v-for="tableData in tableData" :key="tableData" id="bingo-content">
-                    <td v-for="tableContent in tableData" :key="tableContent" @click="selectTarget">
+                    <td v-for="tableContent in tableData" :key="tableContent" @click="selectTarget" @contextmenu="rightClickHandler($event)">
                         <BingoBoxAtom 
                             :selected="false" 
                             :text="tableContent.text" 
@@ -20,8 +20,8 @@
                             :multiSelectOptions="JSON.stringify(tableContent?.multiSelectOptions)"
                         />
                     </td>
-                                </tr>
-                            </table>
+                </tr>
+            </table>
         </div>
     </section>
 </template>
@@ -41,6 +41,29 @@ export default {
         BingoBoxAtom
     },
     methods: {
+        rightClickHandler(e) {
+            e.preventDefault();
+
+            const target = e.target;
+            const input = target.firstElementChild;
+
+            if(input.dataset.fixed === 'true') {
+                return;
+            }
+
+            input.dataset.selected = false;
+            input.dataset.timesPressed = 0;
+            input.dataset.timesRounds = 0;
+
+            const isMultiSelect = input.dataset.multiSelectNumber > 0;
+            if(!isMultiSelect) {
+                return;
+            }
+
+            target.querySelectorAll('.bingo-box-multi--item').forEach(div => {
+                div.style.backgroundColor = '';
+            });
+        },
         selectTarget(e) {
             const target = e.target;
             const input = target.querySelector('input');
