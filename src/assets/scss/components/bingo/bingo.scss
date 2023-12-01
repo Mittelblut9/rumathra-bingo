@@ -8,16 +8,27 @@
         }
         
         td {
-            width: 7rem;
+            width: 10rem;
+            height: 8rem;
+            max-width: 10rem;
+            max-height: 8rem;
             border: 3px solid $black;
-            font-size: .8rem;
+            font-size: 1.3rem;
             padding: 0;
+            line-break: normal;
 
             &:hover {
-                cursor: url('@/assets/img/rosin.png') 4 12, auto;
+                cursor: url('@/assets/img/cursor.png') 4 12, auto;
+            }
+
+            p {
+                padding: 0;
+                margin: 0;
             }
 
             .bingo-box-multi {
+                margin-top: 10px;
+                margin-bottom: -32px;
                 justify-content: space-between;
                 
                 &--item {
