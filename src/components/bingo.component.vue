@@ -67,6 +67,13 @@ export default {
         },
         selectTarget(e) {
             const target = e.target;
+            const isTargetInput = target.tagName === 'P';
+
+            if(isTargetInput && target.isContentEditable || target.lastElementChild.isContentEditable) {
+                return;
+            }
+            
+
             const input = target.querySelector('input');
             let targetDiv;
 

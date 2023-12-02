@@ -8,27 +8,24 @@
         }
         
         td {
-            width: 10rem;
+            width: 16rem;
             height: 8rem;
-            max-width: 10rem;
+            max-width: 16rem;
             max-height: 8rem;
             border: 3px solid $black;
-            font-size: 1.3rem;
             padding: 0;
             line-break: normal;
 
-            &:hover {
-                cursor: url('@/assets/img/cursor.png') 4 12, auto;
-            }
-
-            p {
+            p,textarea {
                 padding: 0;
                 margin: 0;
+                font-size: 2rem;
+                outline: none;
             }
 
             .bingo-box-multi {
                 margin-top: 10px;
-                margin-bottom: -32px;
+                margin-bottom: -17px;
                 justify-content: space-between;
                 
                 &--item {
