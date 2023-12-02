@@ -2,9 +2,9 @@
     <section class="section-bingo">
         <div class="section-bingo--animation" id="bingo-container">
             <img src="@/assets/gif/winning.gif" alt="bingo" style="visibility: hidden;"/>
-            <h1>BINGO!!</h1>
-            <table>
-                <tr class="user-select-none">
+            <h1>{{ snippets.bingoTriggered }}</h1>
+            <table class="bg-white show">
+                <tr class="user-select-none text-center fs-3">
                     <th data-fixed="true">B</th>
                     <th data-fixed="true">I</th>
                     <th data-fixed="true">N</th>
@@ -34,7 +34,10 @@ export default {
     data() {
         return {
             tableData: tableData.bingo,
-            bingoTriggered: false
+            bingoTriggered: false,
+            snippets: {
+                bingoTriggered: 'BINGO!!'
+            }
         };
     },
     components: {

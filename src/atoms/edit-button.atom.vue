@@ -1,6 +1,6 @@
 <template>
     <div class="edit-button">
-        <button class="edit-button__button" @click="isEditing = !isEditing"></button>
+        <button class="btn btn-success" @click="isEditing = !isEditing">Edit</button>
     </div>
 </template>
 
