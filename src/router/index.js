@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
     {
-        path: '/:bingo',
+        path: '/',
         name: 'home',
         props: true,
         component: function () {

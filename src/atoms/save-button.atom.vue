@@ -29,11 +29,12 @@ export default {
         },
 
         saveCookie(data) {
-            const currentPath = window.location.pathname;
+            const currentQuery = this.$route.query.bingo;
             const now = new Date();
-            const expirationDate = new Date().setFullYear(now.getFullYear() + 1);
+            const expirationDate = new Date();
+            expirationDate.setFullYear(now.getFullYear() + 1);
             const expires = expirationDate.toUTCString();
-            document.cookie = `bingo=${JSON.stringify(data)}; expires=${expires}; path=${currentPath}; sameSite=strict;`;
+            document.cookie = `bingo${currentQuery}=${JSON.stringify(data)}; expires=${expires}; path=/; sameSite=strict;`;
         }
     }
 };
