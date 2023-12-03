@@ -37,10 +37,18 @@ export default {
     },
     data() {
         return {
-            isEditing: false
+            isEditing: false,
+            editBingoClicked: false
         };
     },
     mounted() {
+        document.addEventListener('editBingo', () => {
+            this.editBingoClicked = true;
+            if (this.editBingoClicked && this.isEditing !== !this.isEditing) {
+                this.isEditing = !this.isEditing;
+            }
+        });
+
         this.$nextTick(() => {
             const el = this.$el;
             this.changeFontSize(el);
@@ -51,8 +59,11 @@ export default {
         });
 
         this.$el.parentElement.addEventListener('mouseover', () => {
-            if(this.isEditing) return;
-            document.body.style.cursor = `url(${require('@/assets/img/cursor.png')}) 4 12, auto`;
+            if (this.isEditing) {
+                document.body.style.cursor = '';
+                return;
+            }
+            document.body.style.cursor = `url(${this.getHoverImage()}) 4 12, auto`;
         });
     },
     methods: {
@@ -78,6 +89,13 @@ export default {
                 }
             });
         },
+
+        getHoverImage() {
+            const value = `; ${document.cookie}`;
+            const parts = value.split('; hoverImage=');
+            const hoverImageValue = parts.pop().split(';').shift().replaceAll('\\', '/');
+            return hoverImageValue;
+        }
     }
 };
 </script>
