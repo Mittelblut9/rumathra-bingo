@@ -1,44 +1,31 @@
 .section-bingo {
     table {
-        border-collapse: collapse;
-        background: white;
-
         th {
             height: 3rem;
         }
         
         td {
-            width: 10rem;
+            width: 16rem;
             height: 8rem;
-            max-width: 10rem;
+            max-width: 16rem;
             max-height: 8rem;
             border: 3px solid $black;
-            font-size: 1.3rem;
             padding: 0;
             line-break: normal;
 
-            &:hover {
-                cursor: url('@/assets/img/cursor.png') 4 12, auto;
-            }
-
             p {
-                padding: 0;
-                margin: 0;
+                font-size: 2rem;
+                outline: none;
             }
 
             .bingo-box-multi {
-                margin-top: 10px;
-                margin-bottom: -32px;
-                justify-content: space-between;
+                margin-bottom: -17px;
                 
                 &--item {
                     width: calc(100% / 3);
                     height: 4rem;
                     border: 1px solid $black;
-                    background-color: $white;
                     font-size: .8rem;
-                    font-weight: bold;
-                    color: $black;
                 }
             }
         }

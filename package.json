@@ -27,6 +27,8 @@
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "bootstrap": "^5.3.2",
+    "bootstrap-vue-next": "^0.15.5",
     "eslint": "^8.51.0",
     "eslint-plugin-vue": "^9.17.0",
     "lint-staged": "^14.0.1",
@@ -36,7 +38,8 @@
     "stylelint": "^15.10.3",
     "stylelint-config-standard": "^34.0.0",
     "stylelint-config-standard-scss": "^11.0.0",
-    "stylelint-config-standard-vue": "^1.0.0"
+    "stylelint-config-standard-vue": "^1.0.0",
+    "unplugin-vue-components": "^0.25.2"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
