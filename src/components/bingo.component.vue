@@ -211,7 +211,6 @@ export default {
             });
 
             const diagonale = () => {
-                console.log(table.querySelector('.bingo-content:nth-child(2)'));
                 const firstCell = table.querySelector('.bingo-content:nth-child(2) td:first-child');
                 const secondCell = table.querySelector('.bingo-content:nth-child(3) td:nth-child(2)');
                 const thirdCell = table.querySelector('.bingo-content:nth-child(4) td:nth-child(3)');
