@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "execa": "^8.0.1",
-    "sass": "^1.69.3",
+    "sass": "^1.69.5",
     "stylelint-scss": "^5.2.1",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
