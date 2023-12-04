@@ -59,17 +59,18 @@ export default {
         },
 
         saveImage(path) {
-            const currentPath = window.location.pathname;
+            const currentQuery = this.$route.query.bingo;
             const now = new Date();
             const expirationDate = new Date();
             expirationDate.setFullYear(now.getFullYear() + 1);
             const expires = expirationDate.toUTCString();
-            document.cookie = `hoverImage=${path}; expires=${expires}; path=${currentPath}; sameSite=strict;`;
+            document.cookie = `hoverImage${currentQuery}=${path}; expires=${expires}; path=/; sameSite=strict;`;
         },
 
         getImage() {
+            const currentQuery = this.$route.query.bingo;
             const value = `; ${document.cookie}`;
-            const parts = value.split('; hoverImage=');
+            const parts = value.split(`; hoverImage${currentQuery}=`);
             const hoverImageValue = parts.pop().split(';').shift();
             return hoverImageValue;
         }

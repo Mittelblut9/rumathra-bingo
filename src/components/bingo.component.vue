@@ -55,8 +55,9 @@ export default {
     },
     methods: {
         getBingoCookie() {
+            const currentQuery = this.$route.query.bingo;
             const value = `; ${document.cookie}`;
-            const parts = value.split('; bingo=');
+            const parts = value.split(`; bingo${currentQuery}=`);
             const bingoCookieValue = parts.pop().split(';').shift();
             try {
                 return JSON.parse(bingoCookieValue);
@@ -99,7 +100,7 @@ export default {
             let targetDiv;
 
             const fixed = input.dataset.fixed === 'true';
-            if(fixed) {
+            if (fixed) {
                 return;
             }
             
@@ -271,8 +272,9 @@ export default {
         },
 
         getBingoGif() {
+            const currentQuery = this.$route.query.bingo;
             const value = `; ${document.cookie}`;
-            const parts = value.split('; bingoGif=');
+            const parts = value.split(`; bingoGif${currentQuery}=`);
             const bingoGifValue = parts.pop().split(';').shift().replaceAll('\\', '/');
             return bingoGifValue;
         }

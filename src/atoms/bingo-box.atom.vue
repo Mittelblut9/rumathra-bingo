@@ -91,8 +91,9 @@ export default {
         },
 
         getHoverImage() {
+            const currentQuery = this.$route.query.bingo;
             const value = `; ${document.cookie}`;
-            const parts = value.split('; hoverImage=');
+            const parts = value.split(`; hoverImage${currentQuery}=`);
             const hoverImageValue = parts.pop().split(';').shift().replaceAll('\\', '/');
             return hoverImageValue;
         }

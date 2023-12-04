@@ -2,8 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
     {
-        path: '/:bingo',
+        path: '/',
         name: 'home',
+        props: true,
         component: function () {
             return import(/* webpackChunkName: "Homepage" */ '../views/Homepage.view.vue');
         }
