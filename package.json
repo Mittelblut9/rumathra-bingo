@@ -29,7 +29,7 @@
     "@vue/cli-service": "~5.0.0",
     "bootstrap": "^5.3.2",
     "bootstrap-vue-next": "^0.15.5",
-    "eslint": "^8.51.0",
+    "eslint": "^8.55.0",
     "eslint-plugin-vue": "^9.17.0",
     "lint-staged": "^14.0.1",
     "node-sass": "^9.0.0",
