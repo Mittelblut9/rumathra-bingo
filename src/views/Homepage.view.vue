@@ -6,6 +6,10 @@
       <EditButtonAtom class="p-3"/>
       <EditMouseOverButtonAtom class="p-3"/>
       <EditBingoGifButtonAtom class="p-3"/>
+      <div class="d-grid">
+        <ShareButtonAtom class="mb-3 ps-3"/>
+        <ImportButtonAtom class="ps-3 pb-3"/>
+      </div>
     </div>
   </div>
   <div v-else>
@@ -19,7 +23,9 @@
 import EditButtonAtom from '@/atoms/edit-button.atom.vue';
 import EditBingoGifButtonAtom from '@/atoms/editBingoGif-button.atom.vue';
 import EditMouseOverButtonAtom from '@/atoms/editMouseOver-button.atom.vue';
+import ImportButtonAtom from '@/atoms/import-button.atom.vue';
 import SaveButtonAtom from '@/atoms/save-button.atom.vue';
+import ShareButtonAtom from '@/atoms/share-button.atom.vue';
 import BingoComponent from '@/components/bingo.component.vue';
 
 export default {
@@ -29,7 +35,9 @@ export default {
         SaveButtonAtom,
         EditButtonAtom,
         EditMouseOverButtonAtom,
-        EditBingoGifButtonAtom
+        EditBingoGifButtonAtom,
+        ShareButtonAtom,
+        ImportButtonAtom,
     },
     data() {
         return {
