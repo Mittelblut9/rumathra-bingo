@@ -19,6 +19,7 @@ export default {
             button.classList.toggle('btn-danger');
 
             this.edit = !this.edit;
+            document.cursor = '';
             document.dispatchEvent(new CustomEvent('editBingo'));
         }
     }
