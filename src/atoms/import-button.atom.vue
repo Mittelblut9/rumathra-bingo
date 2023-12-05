@@ -47,17 +47,8 @@ export default {
                         pTag.innerText = json[i][j];
                     }
                 }
-
-
-
             };
             reader.readAsText(file);
-
-            //todo
-            // - check if its valid
-            // - -  if valid, read the data and loop through the table and insert all data
-            // - - (dont save it. the user has to save it manually)
-            // - - if not valid, output the error
         },
     }
 };
