@@ -28,6 +28,22 @@
                     font-size: .8rem;
                 }
             }
+
+            .multi-select-inputs {
+                margin-top: -1.8rem;
+
+                input[type="text"] {
+                    width: 4rem;
+                    height: 2rem;
+                    border: 1px solid $black;
+                    font-size: .8rem;
+                    text-align: center;
+                }
+
+                input:last-child {
+                    margin-left: 1rem;
+                }	
+            }
         }
     }
 }

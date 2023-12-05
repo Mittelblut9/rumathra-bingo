@@ -11,8 +11,12 @@
                     <th data-fixed="true">G</th>
                     <th data-fixed="true">O</th>
                 </tr>
-                <tr v-for="tableData in tableData" :key="tableData" class="bingo-content">
-                    <td v-for="tableContent in tableData" :key="tableContent" @click="selectTarget" @contextmenu="rightClickHandler($event)">
+                <tr v-for="(tableData, trIndex) in tableData" :key="tableData" class="bingo-content">
+                    <td v-for="(tableContent, tdIndex) in tableData" :key="tableContent" @click="selectTarget" @contextmenu="rightClickHandler($event)">
+                        <div class="multi-select-inputs d-none position-absolute d-flex">
+                            <input class="form-check-input multi-select-check-input" :class="`multiSelect-${trIndex}-${tdIndex}`" type="checkbox" value="" />
+                            <input class="form-control multi-select-text-input" :class="`multiSelect-${trIndex}-${tdIndex}`" type="text" value="" min="1" max="11" />
+                        </div>
                         <BingoBoxAtom 
                             :selected="false" 
                             :text="tableContent.text || tableContent" 
@@ -89,6 +93,10 @@ export default {
             });
         },
         selectTarget(e) {
+            if(this.$root.edit) {
+                return;
+            }
+
             const target = e.target;
             const isTargetInput = target.tagName === 'P';
 
