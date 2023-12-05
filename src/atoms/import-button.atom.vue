@@ -1,6 +1,11 @@
 <template>
     <div class="import-button">
-        <button class="btn btn-secondary" @click="importBingo">Import</button>
+        <div class="input-group">
+            <div class="d-grid w-100">
+                <span>Importiere ein Bingo</span>
+                <input type="file" class="form-control w-100" @change="importBingo" aria-describedby="inputGroupFileAddon04" aria-label="Upload" ref="file">
+            </div>
+        </div>
     </div>
 </template>
 
@@ -9,10 +14,46 @@ export default {
     name: 'ImportButtonAtom',
     methods: {
         importBingo() {
+            const file = this.$refs.file.files[0];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const json = JSON.parse(e.target.result);
+                const isJSONType = file.type === 'application/json';
+                if (!isJSONType) {
+                    alert('Invalid file type. Please upload a JSON file.');
+                    return;
+                }
+
+                const isJSON = typeof json === 'object';
+                if (!isJSON) {
+                    alert('Invalid JSON file. Please upload a valid JSON file.');
+                    return;
+                }
+
+                const isBingo = json[0].length === 5;
+                if (!isBingo) {
+                    alert('Invalid Bingo file. Please upload a valid Bingo file.');
+                    return;
+                }
+
+                const table = document.querySelector('table');
+                const rows = table.querySelectorAll('tr:not(:first-child)');
+                for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+                    const cols = row.querySelectorAll('td');
+                    for (let j = 0; j < cols.length; j++) {
+                        const col = cols[j];
+                        const pTag = col.querySelector('p');
+                        pTag.innerText = json[i][j];
+                    }
+                }
+
+
+
+            };
+            reader.readAsText(file);
+
             //todo
-            // - add a file upload html object
-            // - add a fiel upload handler
-            // - read the json file
             // - check if its valid
             // - -  if valid, read the data and loop through the table and insert all data
             // - - (dont save it. the user has to save it manually)
