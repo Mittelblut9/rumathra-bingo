@@ -5,10 +5,10 @@
         }
         
         td {
-            width: 16rem;
-            height: 8rem;
-            max-width: 16rem;
-            max-height: 8rem;
+            width: 14rem;
+            height: 12rem;
+            max-width: 14rem;
+            max-height: 12rem;
             border: 3px solid $black;
             padding: 0;
             line-break: normal;
@@ -19,8 +19,10 @@
             }
 
             .bingo-box-multi {
-                margin-bottom: -17px;
+                --bs-gutter-x: 0;
                 
+                margin-bottom: -17px;
+
                 &--item {
                     width: calc(100% / 3);
                     height: 4rem;
@@ -30,7 +32,7 @@
             }
 
             .multi-select-inputs {
-                margin-top: -1.8rem;
+                margin-top: -2.5rem;
 
                 input[type="text"] {
                     width: 4rem;

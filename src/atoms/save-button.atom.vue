@@ -20,13 +20,16 @@ export default {
                 const rowData = [];
                 for (let j = 0; j < cols.length; j++) {
                     const col = cols[j];
-                    rowData.push(col.innerText.trim());
+                    rowData.push({
+                        text: col.innerText.trim(),
+                        multiSelectNumber: parseInt(col.querySelector('.bingo-box-field-data').dataset.multiSelectNumber),
+                    });
                 }
                 data.push(rowData);
             }
             //remove the first data in the array, cause its the header
             data.shift();
-            saveCookie('bingo', this.$route.query.bingo, data);
+            saveCookie('bingo', this.$route.query.bingo, JSON.stringify(data));
             alert('Successfully saved!');
         },
     }

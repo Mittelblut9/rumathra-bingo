@@ -18,11 +18,12 @@ export default {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const json = JSON.parse(e.target.result);
-                const isJSONType = file.type === 'application/json' || typeof json === 'object' || json[0].length === 5;
+                const isJSONType = file.type === 'application/json' || typeof json === 'object' || json.bingo[0].length === 5;
                 if (!isJSONType) {
                     alert('Invalid file type or invalid JSON File. Please upload a JSON file.');
                     return;
                 }
+                const bingo = json.bingo;
 
                 const table = document.querySelector('table');
                 const rows = table.querySelectorAll('tr:not(:first-child)');
@@ -32,10 +33,14 @@ export default {
                     for (let j = 0; j < cols.length; j++) {
                         const col = cols[j];
                         const pTag = col.querySelector('p');
-                        pTag.innerText = json[i][j];
+                        pTag.innerText = bingo[i][j].text;
+                        const bingoBoxFieldData = col.querySelector('.bingo-box-field-data');
+                        bingoBoxFieldData.dataset.multiSelectNumber = bingo[i][j].multiSelectNumber || 0;
                     }
                 }
             };
+
+            alert('Successfully imported! Please save your bingo and reload the page to see all changes.');
             reader.readAsText(file);
         },
     }

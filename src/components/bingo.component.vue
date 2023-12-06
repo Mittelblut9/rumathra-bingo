@@ -14,8 +14,26 @@
                 <tr v-for="(tableData, trIndex) in tableData" :key="tableData" class="bingo-content">
                     <td v-for="(tableContent, tdIndex) in tableData" :key="tableContent" @click="selectTarget" @contextmenu="rightClickHandler($event)">
                         <div class="multi-select-inputs d-none position-absolute d-flex">
-                            <input class="form-check-input multi-select-check-input" :class="`multiSelect-${trIndex}-${tdIndex}`" type="checkbox" value="" />
-                            <input class="form-control multi-select-text-input" :class="`multiSelect-${trIndex}-${tdIndex}`" type="text" value="" min="1" max="11" />
+                            <input 
+                                class="form-check-input multi-select-check-input" 
+                                :class="`multiSelect-${trIndex}-${tdIndex}`" 
+                                type="checkbox"
+                                @click="triggerMulitSelect"
+                                :data-trindex="trIndex"
+                                :data-tdindex="tdIndex"
+                                :checked="tableContent.multiSelectNumber > 0"
+                                />
+                            <input 
+                                class="form-control multi-select-text-input" 
+                                :class="`multiSelect-${trIndex}-${tdIndex}`" 
+                                type="text" 
+                                :value="tableContent.multiSelectNumber || 2"
+                                :data-trindex="trIndex"
+                                :data-tdindex="tdIndex"
+                                min="1" 
+                                max="11"
+                                @change="updateMultiSelectNumber"
+                                />
                         </div>
                         <BingoBoxAtom :tableContent="tableContent" />
                     </td>
@@ -39,7 +57,14 @@ export default {
             snippets: {
                 bingoTriggered: 'BINGO!!'
             },
-            bingoGif: getCookie('bingoGif', this.$route.query.bingo)
+            bingoGif: getCookie('bingoGif', this.$route.query.bingo),
+            colorOptions: {
+                color0: 'yellow',
+                color1: 'red',
+                color2: 'purple',
+                color3: 'blue',
+                color4: 'green',
+            }
         };
     },
     mounted() {
@@ -86,17 +111,10 @@ export default {
             if(this.$root.edit) {
                 return;
             }
-
+            
             const target = e.target;
-            const isTargetInput = target.tagName === 'P';
-
-            if(isTargetInput && target.isContentEditable || target.lastElementChild.isContentEditable) {
-                return;
-            }
-
-            const input = target.querySelector('input');
-            let targetDiv;
-
+            const input = target.querySelector('.bingo-box-field-data');
+            
             const fixed = input.dataset.fixed === 'true';
             if (fixed) {
                 return;
@@ -107,19 +125,19 @@ export default {
 
             let selected = input.dataset.selected === 'true';
             let color;
-            let resetColor = false;
-            let resetTimesPressed = false;
 
             const multiSelectNumber = parseInt(input.dataset.multiSelectNumber);
             const isMultiSelect = multiSelectNumber > 0;
-            const multiSelectOptions = tableData.options;
-            
+            const multiSelectOptions = this.colorOptions;
+
             if (isMultiSelect && timesPressed > 0)  {
                 color = multiSelectOptions[`color${timesRounds}`];
             } else {
                 color = multiSelectOptions['color0'];
                 selected = !selected;
             }
+
+            let targetDiv = null;
 
             if(isMultiSelect) {
                 selected = false;
@@ -143,12 +161,7 @@ export default {
 
             targetDiv.style.backgroundColor = !selected && !isMultiSelect ? '' : color;
             input.dataset.selected = selected;
-            input.dataset.timesPressed = resetTimesPressed ? 0 : timesPressed + 1;
-
-
-            if(resetColor) {
-                targetDiv.style.backgroundColor = '';
-            }
+            input.dataset.timesPressed = timesPressed + 1;
 
             checkIfBingo((isBingo) => {
                 if(isBingo) {
@@ -160,6 +173,39 @@ export default {
                 }
             });
         },
+        // eslint-disable-next-line no-unused-vars
+        triggerMulitSelect(el) {
+            const target = el.target;
+            const checked = target.checked;
+            const trIndex = target.dataset.trindex;
+            const tdIndex = target.dataset.tdindex;
+
+            const newObjWithMulti = {
+                text: this.tableData[trIndex][tdIndex].text,
+                multiSelectNumber: 2,
+            };
+
+            const newObjWithoutMulti = {
+                text: this.tableData[trIndex][tdIndex].text,
+            };
+
+            this.tableData[trIndex][tdIndex] = checked ? newObjWithMulti : newObjWithoutMulti;
+            this.updateMultiSelectNumber(el);
+        },
+
+        updateMultiSelectNumber(el) {
+            const target = el.target;
+            const trIndex = target.dataset.trindex;
+            const tdIndex = target.dataset.tdindex;
+            const multiSelectNumber = parseInt(target.value);
+
+            const newObjWithMulti = {
+                text: this.tableData[trIndex][tdIndex].text,
+                multiSelectNumber,
+            };
+
+            this.tableData[trIndex][tdIndex] = newObjWithMulti;
+        }
     }
 };
 </script>

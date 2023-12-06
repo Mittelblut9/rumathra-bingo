@@ -5,27 +5,19 @@
 </template>
 
 <script>
+import { getCookie } from '@/assets/js/cookie';
+
 export default {
     name: 'ShareButtonAtom',
     methods: {
         share() {
-            const table = document.querySelector('table');
-            const rows = table.querySelectorAll('tr');
-            const data = [];
-            for (let i = 0; i < rows.length; i++) {
-                const row = rows[i];
-                const cols = row.querySelectorAll('td');
-                const rowData = [];
-                for (let j = 0; j < cols.length; j++) {
-                    const col = cols[j];
-                    rowData.push(col.innerText.trim());
-                }
-                data.push(rowData);
-            }
-            //remove the first data in the array, cause its the header
-            data.shift();
+            const saveObj = {
+                hoverImage: getCookie('hoverImage', this.$route.query.bingo),
+                bingoGif: getCookie('bingoGif', this.$route.query.bingo),
+                bingo: getCookie('bingo', this.$route.query.bingo, true),
+            };
             
-            const dataString = JSON.stringify(data, null, 2);
+            const dataString = JSON.stringify(saveObj, null, 2);
             const blob = new Blob([dataString], { type: 'application/json' });
             
             this.download(blob);

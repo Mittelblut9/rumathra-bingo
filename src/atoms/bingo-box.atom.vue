@@ -2,33 +2,35 @@
     <input hidden 
         :data-selected="selected"
         :data-multi-select-number="multiSelectNumber"
-        :data-multi-select-options="multiSelectOptions"
         data-times-pressed="0"
         data-times-rounds="0"
+        class="bingo-box-field-data d-none"
     />
     <p :class="[isEditing || 'pointer-events-none']" class="text-center user-select-none p-0 m-0 text-uppercase fw-bold py-2" :contenteditable="isEditing">{{ text }}</p>
-    <div class="bingo-box-multi pointer-events-none d-flex justify-content-space-between mt-3 " v-if="multiSelectNumber > 0">
-        <div v-for="i in multiSelectNumber" :key="i" class="bingo-box-multi--item pointer-events-none fw-bold text-black" :style="{ backgroundColor: multiSelectOptions[`color${i}`] }">
+    <div class="bingo-box-multi row pointer-events-none d-flex justify-content-space-between mt-3 " v-if="multiSelectNumber > 0">
+        <div v-for="i in multiSelectNumber" :key="i" class="bingo-box-multi--item pointer-events-none fw-bold text-black col">
             <input hidden :data-multi-select-number="i"/>
         </div>
     </div>
 </template>
 
 <script>
+import { getCookie } from '@/assets/js/cookie';
+
 export default {
     name: 'BingoBoxAtom',
     props: {
         tableContent: {
-            default: () => {}
-        },
+            type: Object,
+            required: true
+        }
     },
     data() {
         return {
             isEditing: false,
             editBingoClicked: false,
-            text: this.tableContent.text || this.tableContent,
+            text: this.tableContent.text,
             multiSelectNumber: this.tableContent.multiSelectNumber,
-            multiSelectOptions: JSON.stringify(this.tableContent?.multiSelectOptions),
             selected: false,
         };
     },
@@ -54,7 +56,8 @@ export default {
                 document.body.style.cursor = '';
                 return;
             }
-            document.body.style.cursor = `url(${this.getHoverImage()}) 4 12, auto`;
+            const hoverImage = getCookie('hoverImage', this.$route.query.bingo);
+            document.body.style.cursor = `url(${hoverImage}) 4 12, auto`;
         });
     },
     methods: {
@@ -67,7 +70,7 @@ export default {
             }
 
             if(text.length > 40) {
-                const fontSize = 50 / text.length;
+                const fontSize = 60 / text.length;
                 pTag.style.fontSize = `${fontSize}rem`;
             }
 
@@ -80,14 +83,6 @@ export default {
                 }
             });
         },
-
-        getHoverImage() {
-            const currentQuery = this.$route.query.bingo;
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; hoverImage${currentQuery}=`);
-            const hoverImageValue = parts.pop().split(';').shift().replaceAll('\\', '/');
-            return hoverImageValue;
-        }
     }
 };
 </script>
