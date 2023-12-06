@@ -29,53 +29,37 @@ export function checkIfBingo(cb) {
 
     let isBingo = false;
 
-    tableRows.forEach(row => {
-        if(isBingo) {
-            return;
-        }
-        const rowCells = row.querySelectorAll('td');
-        const rowCellsLength = rowCells.length;
 
-        let rowCellsSelected = 0;
-        rowCells.forEach(cell => {
-            const input = cell.querySelector('input');
-            const selected = input.dataset.selected === 'true';
-            if(selected) {
-                rowCellsSelected++;
+    const isBingoCheck = function (tableElements) {
+        tableElements.forEach(function (element) {
+            if(isBingo) {
+                return false;
             }
+
+            const isVerticalRow = typeof element.cellIndex === 'number';
+            const elementCells = isVerticalRow ? table.querySelectorAll(`td:nth-child(${element.cellIndex + 1})`) : element.querySelectorAll('td');
+            const elementCellsLength = elementCells.length;
+            let elementCellsSelected = 0;
+
+            elementCells.forEach(function (cell) {
+                if(cell.querySelector('.bingo-box-field-data').dataset.selected === 'true') {
+                    elementCellsSelected++;
+                }
+            });
+
+            return cb(elementCellsSelected === elementCellsLength && elementCellsSelected >= 5);
         });
+    };
 
-        isBingo = rowCellsSelected === rowCellsLength;
-
-        cb(isBingo);
-    });
-
-    tableColumns.forEach(column => {
-        if(isBingo) {
-            return;
-        }
-        const columnCells = table.querySelectorAll(`td:nth-child(${column.cellIndex + 1})`);
-        const columnCellsLength = columnCells.length;
-
-        let columnCellsSelected = 0;
-        columnCells.forEach(cell => {
-            const input = cell.querySelector('input');
-            const selected = input.dataset.selected === 'true';
-            if(selected) {
-                columnCellsSelected++;
-            }
-        });
-
-        isBingo = columnCellsSelected === columnCellsLength;
-        cb(isBingo);
-    });
+    isBingoCheck(tableRows);
+    isBingoCheck(tableColumns);
 
     const checkDiagonal = (startRow, cellIndices) => {
         const cells = cellIndices.map((index, i) =>
             table.querySelector(`.bingo-content:nth-child(${startRow + i}) td:nth-child(${index})`)
         );
 
-        return cells.every((cell) => cell.querySelector('input').dataset.selected === 'true');
+        return cells.every((cell) => cell.querySelector('.bingo-box-field-data').dataset.selected === 'true');
     };
 
     const diagonale = () => checkDiagonal(2, [1, 2, 3, 4, 5]);
