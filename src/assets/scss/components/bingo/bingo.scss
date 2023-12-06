@@ -1,14 +1,16 @@
 .section-bingo {
+    height: 90vh;
+    
     table {
         th {
             height: 3rem;
         }
         
         td {
-            width: 16rem;
-            height: 8rem;
-            max-width: 16rem;
-            max-height: 8rem;
+            width: 14rem;
+            height: 12rem;
+            max-width: 14rem;
+            max-height: 12rem;
             border: 3px solid $black;
             padding: 0;
             line-break: normal;
@@ -19,7 +21,7 @@
             }
 
             .bingo-box-multi {
-                margin-bottom: -17px;
+                --bs-gutter-x: 0;
                 
                 &--item {
                     width: calc(100% / 3);
@@ -27,6 +29,22 @@
                     border: 1px solid $black;
                     font-size: .8rem;
                 }
+            }
+
+            
+
+            .multi-select-inputs {
+                input[type="text"] {
+                    width: 4rem;
+                    height: 2rem;
+                    border: 1px solid $black;
+                    font-size: .8rem;
+                    text-align: center;
+                }
+
+                input:last-child {
+                    margin-left: 1rem;
+                }	
             }
         }
     }

@@ -7,18 +7,17 @@
 <script>
 export default {
     name: 'EditButtonAtom',
-    data() {
-        return {
-            edit: false
-        };
-    },
     methods: {
         triggerEditEvent() {
             const button = this.$el.firstChild;
-            button.innerHTML = this.edit ? 'Edit' : 'Editting';
+            button.innerHTML = this.$root.edit ? 'Edit' : 'Editting';
             button.classList.toggle('btn-danger');
+            this.$root.edit = !this.$root.edit;
+            
+            document.querySelectorAll('.multi-select-inputs').forEach((element) => {
+                element.classList.toggle('d-none');
+            });
 
-            this.edit = !this.edit;
             document.cursor = '';
             document.dispatchEvent(new CustomEvent('editBingo'));
         }

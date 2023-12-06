@@ -1,7 +1,7 @@
 <template>
     <section class="section-bingo">
         <div class="section-bingo--animation" id="bingo-container">
-            <img :src="getBingoGif()" style="visibility: hidden;"/>
+            <img :src="bingoGif" style="visibility: hidden;"/>
             <h1>{{ snippets.bingoTriggered }}</h1>
             <table class="bg-white show">
                 <tr class="user-select-none text-center fs-3">
@@ -11,14 +11,33 @@
                     <th data-fixed="true">G</th>
                     <th data-fixed="true">O</th>
                 </tr>
-                <tr v-for="tableData in tableData" :key="tableData" class="bingo-content">
-                    <td v-for="tableContent in tableData" :key="tableContent" @click="selectTarget" @contextmenu="rightClickHandler($event)">
-                        <BingoBoxAtom 
-                            :selected="false" 
-                            :text="tableContent.text || tableContent" 
-                            :multiSelectNumber="tableContent.multiSelectNumber"
-                            :multiSelectOptions="JSON.stringify(tableContent?.multiSelectOptions)"
-                        />
+                <tr v-for="(tableData, trIndex) in tableData" :key="tableData" class="bingo-content">
+                    <td v-for="(tableContent, tdIndex) in tableData" :key="tableContent" @click="selectTarget" @contextmenu="rightClickHandler($event)">
+                        <div class="multi-select-inputs d-flex" :class="[$root.edit || 'd-none']">
+                            <input 
+                                class="form-check-input multi-select-check-input" 
+                                :class="`multiSelect-${trIndex}-${tdIndex}`" 
+                                type="checkbox"
+                                @click="triggerMulitSelect"
+                                :data-trindex="trIndex"
+                                :data-tdindex="tdIndex"
+                                :checked="tableContent.multiSelectNumber > 0"
+                                />
+                            <input 
+                                class="form-control multi-select-text-input" 
+                                :class="`multiSelect-${trIndex}-${tdIndex}`" 
+                                type="text" 
+                                :value="tableContent.multiSelectNumber || 2"
+                                :data-trindex="trIndex"
+                                :data-tdindex="tdIndex"
+                                min="1" 
+                                max="11"
+                                @change="updateMultiSelectNumber"
+                                />
+                        </div>
+                        <div class="d-flex flex-column h-100 " :class="[tableContent.multiSelectNumber > 0 ? 'justify-content-end' : 'justify-content-center']">
+                            <BingoBoxAtom :tableContent="tableContent" />
+                        </div>
                     </td>
                 </tr>
             </table>
@@ -27,43 +46,45 @@
 </template>
 
 <script>
+import { getCookie } from '@/assets/js/cookie';
+import { animateBingo, checkIfBingo } from '@/assets/js/bingo';
 import tableData from '@/assets/json/bingo.json';
 import BingoBoxAtom from '@/atoms/bingo-box.atom.vue';
 export default {
     name: 'BingoComponent',
     data() {
         return {
-            tableData: this.getBingoCookie() || tableData.bingo,
+            tableData: getCookie('bingo', this.$route.query.bingo, true) || tableData.bingo,
             bingoTriggered: false,
             snippets: {
                 bingoTriggered: 'BINGO!!'
+            },
+            bingoGif: getCookie('bingoGif', this.$route.query.bingo),
+            colorOptions: {
+                color0: 'yellow',
+                color1: 'red',
+                color2: 'purple',
+                color3: 'blue',
+                color4: 'green',
             }
         };
     },
     mounted() {
-        //set image gif width as the same as the table width
-        const bingoContainer = document.getElementById('bingo-container');
-        const bingoGif = bingoContainer.querySelector('img');
-        const bingoTable = bingoContainer.querySelector('table');
-        bingoGif.style.width = `${bingoTable.offsetWidth - 50}px`;
-
-        //set image gif height as the same as the table height
-        bingoGif.style.height = `${bingoTable.offsetHeight}px`;
+        this.resizeBingoGif();
     },    
     components: {
         BingoBoxAtom
     },
     methods: {
-        getBingoCookie() {
-            const currentQuery = this.$route.query.bingo;
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; bingo${currentQuery}=`);
-            const bingoCookieValue = parts.pop().split(';').shift();
-            try {
-                return JSON.parse(bingoCookieValue);
-            } catch (error) {
-                return null;
-            }
+        resizeBingoGif() {
+            //set image gif width as the same as the table width
+            const bingoContainer = document.getElementById('bingo-container');
+            const bingoGif = bingoContainer.querySelector('img');
+            const bingoTable = bingoContainer.querySelector('table');
+            bingoGif.style.width = `${bingoTable.offsetWidth - 50}px`;
+
+            //set image gif height as the same as the table height
+            bingoGif.style.height = `${bingoTable.offsetHeight}px`;
         },
         rightClickHandler(e) {
             e.preventDefault();
@@ -89,16 +110,13 @@ export default {
             });
         },
         selectTarget(e) {
-            const target = e.target;
-            const isTargetInput = target.tagName === 'P';
-
-            if(isTargetInput && target.isContentEditable || target.lastElementChild.isContentEditable) {
+            if(this.$root.edit) {
                 return;
             }
-
-            const input = target.querySelector('input');
-            let targetDiv;
-
+            
+            const target = e.target;
+            const input = target.querySelector('.bingo-box-field-data');
+            
             const fixed = input.dataset.fixed === 'true';
             if (fixed) {
                 return;
@@ -109,19 +127,19 @@ export default {
 
             let selected = input.dataset.selected === 'true';
             let color;
-            let resetColor = false;
-            let resetTimesPressed = false;
 
             const multiSelectNumber = parseInt(input.dataset.multiSelectNumber);
             const isMultiSelect = multiSelectNumber > 0;
-            const multiSelectOptions = tableData.options;
-            
+            const multiSelectOptions = this.colorOptions;
+
             if (isMultiSelect && timesPressed > 0)  {
                 color = multiSelectOptions[`color${timesRounds}`];
-            }else {
+            } else {
                 color = multiSelectOptions['color0'];
                 selected = !selected;
             }
+
+            let targetDiv = null;
 
             if(isMultiSelect) {
                 selected = false;
@@ -145,138 +163,49 @@ export default {
 
             targetDiv.style.backgroundColor = !selected && !isMultiSelect ? '' : color;
             input.dataset.selected = selected;
-            input.dataset.timesPressed = resetTimesPressed ? 0 : timesPressed + 1;
+            input.dataset.timesPressed = timesPressed + 1;
 
-
-            if(resetColor) {
-                targetDiv.style.backgroundColor = '';
-            }
-
-            this.checkIfBingo((isBingo) => {
+            checkIfBingo((isBingo) => {
                 if(isBingo) {
                     if(this.bingoTriggered) {
                         return;
                     }
                     this.bingoTriggered = true;
-                    this.animateBingo();
+                    animateBingo();
                 }
             });
         },
+        // eslint-disable-next-line no-unused-vars
+        triggerMulitSelect(el) {
+            const target = el.target;
+            const checked = target.checked;
+            const trIndex = target.dataset.trindex;
+            const tdIndex = target.dataset.tdindex;
 
-        checkIfBingo(cb) {
-            const table = document.querySelector('.section-bingo table');
-            const tableRows = table.querySelectorAll('.bingo-content');
-            const tableColumns = table.querySelectorAll('td');
-
-            let isBingo = false;
-
-            tableRows.forEach(row => {
-                if(isBingo) {
-                    return;
-                }
-                const rowCells = row.querySelectorAll('td');
-                const rowCellsLength = rowCells.length;
-
-                let rowCellsSelected = 0;
-                rowCells.forEach(cell => {
-                    const input = cell.querySelector('input');
-                    const selected = input.dataset.selected === 'true';
-                    if(selected) {
-                        rowCellsSelected++;
-                    }
-                });
-
-                isBingo = rowCellsSelected === rowCellsLength;
-
-                cb(isBingo);
-            });
-
-            tableColumns.forEach(column => {
-                if(isBingo) {
-                    return;
-                }
-                const columnCells = table.querySelectorAll(`td:nth-child(${column.cellIndex + 1})`);
-                const columnCellsLength = columnCells.length;
-
-                let columnCellsSelected = 0;
-                columnCells.forEach(cell => {
-                    const input = cell.querySelector('input');
-                    const selected = input.dataset.selected === 'true';
-                    if(selected) {
-                        columnCellsSelected++;
-                    }
-                });
-
-                isBingo = columnCellsSelected === columnCellsLength;
-                cb(isBingo);
-            });
-
-            const diagonale = () => {
-                const firstCell = table.querySelector('.bingo-content:nth-child(2) td:first-child');
-                const secondCell = table.querySelector('.bingo-content:nth-child(3) td:nth-child(2)');
-                const thirdCell = table.querySelector('.bingo-content:nth-child(4) td:nth-child(3)');
-                const fourthCell = table.querySelector('.bingo-content:nth-child(5) td:nth-child(4)');
-                const fifthCell = table.querySelector('.bingo-content:nth-child(6) td:nth-child(5)');
-
-                const firstCellSelected = firstCell.querySelector('input').dataset.selected === 'true';
-                const secondCellSelected = secondCell.querySelector('input').dataset.selected === 'true';
-                const thirdCellSelected = thirdCell.querySelector('input').dataset.selected === 'true';
-                const fourthCellSelected = fourthCell.querySelector('input').dataset.selected === 'true';
-                const fifthCellSelected = fifthCell.querySelector('input').dataset.selected === 'true';
-
-                return firstCellSelected && secondCellSelected && thirdCellSelected && fourthCellSelected && fifthCellSelected;
+            const newObjWithMulti = {
+                text: this.tableData[trIndex][tdIndex].text,
+                multiSelectNumber: 2,
             };
 
-            const diagonale2 = () => {
-                const firstCell = table.querySelector('.bingo-content:nth-child(2) td:nth-child(5)');
-                const secondCell = table.querySelector('.bingo-content:nth-child(3) td:nth-child(4)');
-                const thirdCell = table.querySelector('.bingo-content:nth-child(4) td:nth-child(3)');
-                const fourthCell = table.querySelector('.bingo-content:nth-child(5) td:nth-child(2)');
-                const fifthCell = table.querySelector('.bingo-content:nth-child(6) td:nth-child(1)');
-
-                const firstCellSelected = firstCell.querySelector('input').dataset.selected === 'true';
-                const secondCellSelected = secondCell.querySelector('input').dataset.selected === 'true';
-                const thirdCellSelected = thirdCell.querySelector('input').dataset.selected === 'true';
-                const fourthCellSelected = fourthCell.querySelector('input').dataset.selected === 'true';
-                const fifthCellSelected = fifthCell.querySelector('input').dataset.selected === 'true';
-
-                return firstCellSelected && secondCellSelected && thirdCellSelected && fourthCellSelected && fifthCellSelected;
+            const newObjWithoutMulti = {
+                text: this.tableData[trIndex][tdIndex].text,
             };
 
-            cb(diagonale());
-            cb(diagonale2());
+            this.tableData[trIndex][tdIndex] = checked ? newObjWithMulti : newObjWithoutMulti;
         },
 
-        animateBingo() {
-            const bingoContainer = document.querySelector('.section-bingo--animation');
-            bingoContainer.classList.add('section-bingo--animation--active');
+        updateMultiSelectNumber(el) {
+            const target = el.target;
+            const trIndex = target.dataset.trindex;
+            const tdIndex = target.dataset.tdindex;
+            const multiSelectNumber = parseInt(target.value);
 
-            bingoContainer.querySelector('h1').style.opacity = 1;
+            const newObjWithMulti = {
+                text: this.tableData[trIndex][tdIndex].text,
+                multiSelectNumber,
+            };
 
-            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
-            let colorIndex = 0;
-            const colorInterval = setInterval(() => {
-                bingoContainer.querySelector('h1').style.color = colors[colorIndex];
-                colorIndex++;
-                if(colorIndex === colors.length) {
-                    colorIndex = 0;
-                }
-            }, 100);
-
-
-            setTimeout(() => {
-                bingoContainer.querySelector('h1').style.opacity = 0;
-                bingoContainer.classList.remove('section-bingo--animation--active');
-                clearInterval(colorInterval);
-            }, 5000);
-        },
-
-        getBingoGif() {
-            const currentQuery = this.$route.query.bingo;
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; bingoGif${currentQuery}=`);
-            const bingoGifValue = parts.pop().split(';').shift().replaceAll('\\', '/');
-            return bingoGifValue;
+            this.tableData[trIndex][tdIndex] = newObjWithMulti;
         }
     }
 };
