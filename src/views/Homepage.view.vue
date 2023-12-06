@@ -1,11 +1,19 @@
 <template>
-  <div v-if="show">
+  <div v-if="show" class="d-grid">
     <BingoComponent />
-    <div class="position-absolute left-0 bottom-0 d-flex">
-      <SaveButtonAtom class="p-3"/>
-      <EditButtonAtom class="p-3"/>
-      <EditMouseOverButtonAtom class="p-3"/>
-      <EditBingoGifButtonAtom class="p-3"/>
+    <div class="d-flex m-5 mx-2 row">
+      <div class="col-2 d-flex">
+        <SaveButtonAtom class="w-100"/>
+        <EditButtonAtom class="ps-3 w-100"/>
+      </div>
+      <div class="col-6">
+        <EditMouseOverButtonAtom class="w-100" />
+        <EditBingoGifButtonAtom  class="w-100"/>
+      </div>
+      <div class="col-4">
+        <ShareButtonAtom class="w-100 mb-3" />
+        <ImportButtonAtom class="w-100"/>
+      </div>
     </div>
   </div>
   <div v-else>
@@ -19,7 +27,9 @@
 import EditButtonAtom from '@/atoms/edit-button.atom.vue';
 import EditBingoGifButtonAtom from '@/atoms/editBingoGif-button.atom.vue';
 import EditMouseOverButtonAtom from '@/atoms/editMouseOver-button.atom.vue';
+import ImportButtonAtom from '@/atoms/import-button.atom.vue';
 import SaveButtonAtom from '@/atoms/save-button.atom.vue';
+import ShareButtonAtom from '@/atoms/share-button.atom.vue';
 import BingoComponent from '@/components/bingo.component.vue';
 
 export default {
@@ -29,7 +39,9 @@ export default {
         SaveButtonAtom,
         EditButtonAtom,
         EditMouseOverButtonAtom,
-        EditBingoGifButtonAtom
+        EditBingoGifButtonAtom,
+        ShareButtonAtom,
+        ImportButtonAtom,
     },
     data() {
         return {
