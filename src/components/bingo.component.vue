@@ -13,7 +13,7 @@
                 </tr>
                 <tr v-for="(tableData, trIndex) in tableData" :key="tableData" class="bingo-content">
                     <td v-for="(tableContent, tdIndex) in tableData" :key="tableContent" @click="selectTarget" @contextmenu="rightClickHandler($event)">
-                        <div class="multi-select-inputs d-none position-absolute d-flex">
+                        <div class="multi-select-inputs position-absolute d-flex" :class="[$root.edit || 'd-none']">
                             <input 
                                 class="form-check-input multi-select-check-input" 
                                 :class="`multiSelect-${trIndex}-${tdIndex}`" 
@@ -190,7 +190,6 @@ export default {
             };
 
             this.tableData[trIndex][tdIndex] = checked ? newObjWithMulti : newObjWithoutMulti;
-            this.updateMultiSelectNumber(el);
         },
 
         updateMultiSelectNumber(el) {

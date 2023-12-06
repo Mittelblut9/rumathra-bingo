@@ -6,7 +6,7 @@
         data-times-rounds="0"
         class="bingo-box-field-data d-none"
     />
-    <p :class="[isEditing || 'pointer-events-none']" class="text-center user-select-none p-0 m-0 text-uppercase fw-bold py-2" :contenteditable="isEditing">{{ text }}</p>
+    <p :class="[$root.edit || 'pointer-events-none']" class="text-center user-select-none p-0 m-0 text-uppercase fw-bold py-2" :contenteditable="$root.edit">{{ text }}</p>
     <div class="bingo-box-multi row pointer-events-none d-flex justify-content-space-between mt-3 " v-if="multiSelectNumber > 0">
         <div v-for="i in multiSelectNumber" :key="i" class="bingo-box-multi--item pointer-events-none fw-bold text-black col">
             <input hidden :data-multi-select-number="i"/>
@@ -27,21 +27,12 @@ export default {
     },
     data() {
         return {
-            isEditing: false,
-            editBingoClicked: false,
             text: this.tableContent.text,
             multiSelectNumber: this.tableContent.multiSelectNumber,
             selected: false,
         };
     },
     mounted() {
-        document.addEventListener('editBingo', () => {
-            this.editBingoClicked = true;
-            if (this.editBingoClicked && this.isEditing !== !this.isEditing) {
-                this.isEditing = !this.isEditing;
-            }
-        });
-
         this.$nextTick(() => {
             const el = this.$el;
             this.changeFontSize(el);
@@ -52,7 +43,7 @@ export default {
         });
 
         this.$el.parentElement.addEventListener('mouseover', () => {
-            if (this.isEditing) {
+            if (this.$root.edit) {
                 document.body.style.cursor = '';
                 return;
             }
