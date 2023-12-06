@@ -1,4 +1,6 @@
 .section-bingo {
+    height: 90vh;
+    
     table {
         th {
             height: 3rem;
@@ -21,8 +23,6 @@
             .bingo-box-multi {
                 --bs-gutter-x: 0;
                 
-                margin-bottom: -17px;
-
                 &--item {
                     width: calc(100% / 3);
                     height: 4rem;
@@ -31,9 +31,9 @@
                 }
             }
 
-            .multi-select-inputs {
-                margin-top: -2.5rem;
+            
 
+            .multi-select-inputs {
                 input[type="text"] {
                     width: 4rem;
                     height: 2rem;

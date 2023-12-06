@@ -13,7 +13,7 @@
                 </tr>
                 <tr v-for="(tableData, trIndex) in tableData" :key="tableData" class="bingo-content">
                     <td v-for="(tableContent, tdIndex) in tableData" :key="tableContent" @click="selectTarget" @contextmenu="rightClickHandler($event)">
-                        <div class="multi-select-inputs position-absolute d-flex" :class="[$root.edit || 'd-none']">
+                        <div class="multi-select-inputs d-flex" :class="[$root.edit || 'd-none']">
                             <input 
                                 class="form-check-input multi-select-check-input" 
                                 :class="`multiSelect-${trIndex}-${tdIndex}`" 
@@ -35,7 +35,9 @@
                                 @change="updateMultiSelectNumber"
                                 />
                         </div>
-                        <BingoBoxAtom :tableContent="tableContent" />
+                        <div class="d-flex flex-column h-100 " :class="[tableContent.multiSelectNumber > 0 ? 'justify-content-end' : 'justify-content-center']">
+                            <BingoBoxAtom :tableContent="tableContent" />
+                        </div>
                     </td>
                 </tr>
             </table>

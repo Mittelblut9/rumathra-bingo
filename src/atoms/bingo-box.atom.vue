@@ -54,14 +54,17 @@ export default {
     methods: {
         changeFontSize(el) {
             const pTag = el.nextElementSibling.nextElementSibling;
+            const isMultiSelect = parseInt(pTag.previousElementSibling.dataset.multiSelectNumber)  > 0;
             const text = pTag.innerHTML;
 
             if(text.length < 7) {
                 pTag.style.fontSize = '2rem';
             }
 
-            if(text.length > 40) {
-                const fontSize = 60 / text.length;
+            const maxTextLength = isMultiSelect ? 20 : 40;
+            if(text.length > maxTextLength) {
+                const devider = isMultiSelect ? 40 : 60;
+                const fontSize = devider / text.length;
                 pTag.style.fontSize = `${fontSize}rem`;
             }
 

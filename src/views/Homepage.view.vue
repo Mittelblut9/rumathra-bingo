@@ -1,14 +1,18 @@
 <template>
-  <div v-if="show">
+  <div v-if="show" class="d-grid">
     <BingoComponent />
-    <div class="position-absolute left-0 bottom-0 d-flex">
-      <SaveButtonAtom class="p-3"/>
-      <EditButtonAtom class="p-3"/>
-      <EditMouseOverButtonAtom class="p-3"/>
-      <EditBingoGifButtonAtom class="p-3"/>
-      <div class="d-grid">
-        <ShareButtonAtom class="mb-3 ps-3"/>
-        <ImportButtonAtom class="ps-3 pb-3"/>
+    <div class="d-flex m-5 mx-2 row">
+      <div class="col-2 d-flex">
+        <SaveButtonAtom class="w-100"/>
+        <EditButtonAtom class="ps-3 w-100"/>
+      </div>
+      <div class="col-6">
+        <EditMouseOverButtonAtom class="w-100" />
+        <EditBingoGifButtonAtom  class="w-100"/>
+      </div>
+      <div class="col-4">
+        <ShareButtonAtom class="w-100 mb-3" />
+        <ImportButtonAtom class="w-100"/>
       </div>
     </div>
   </div>
