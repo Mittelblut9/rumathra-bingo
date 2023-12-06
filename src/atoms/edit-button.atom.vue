@@ -15,11 +15,7 @@ export default {
             this.$root.edit = !this.$root.edit;
             
             document.querySelectorAll('.multi-select-inputs').forEach((element) => {
-                if(this.$root.edit) {
-                    element.classList.remove('d-none');
-                    return;
-                }
-                element.classList.add('d-none');
+                element.classList.toggle('d-none');
             });
 
             document.cursor = '';

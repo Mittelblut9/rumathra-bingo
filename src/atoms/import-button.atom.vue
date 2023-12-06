@@ -18,21 +18,9 @@ export default {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const json = JSON.parse(e.target.result);
-                const isJSONType = file.type === 'application/json';
+                const isJSONType = file.type === 'application/json' || typeof json === 'object' || json[0].length === 5;
                 if (!isJSONType) {
-                    alert('Invalid file type. Please upload a JSON file.');
-                    return;
-                }
-
-                const isJSON = typeof json === 'object';
-                if (!isJSON) {
-                    alert('Invalid JSON file. Please upload a valid JSON file.');
-                    return;
-                }
-
-                const isBingo = json[0].length === 5;
-                if (!isBingo) {
-                    alert('Invalid Bingo file. Please upload a valid Bingo file.');
+                    alert('Invalid file type or invalid JSON File. Please upload a JSON file.');
                     return;
                 }
 

@@ -18,27 +18,18 @@
 export default {
     name: 'BingoBoxAtom',
     props: {
-        selected: {
-            type: Boolean,
-            default: false
+        tableContent: {
+            default: () => {}
         },
-        text: {
-            type: String,
-            default: ''
-        },
-        multiSelectNumber: {
-            type: Number,
-            default: 0
-        },
-        multiSelectOptions: {
-            type: String,
-            default: ''
-        }
     },
     data() {
         return {
             isEditing: false,
-            editBingoClicked: false
+            editBingoClicked: false,
+            text: this.tableContent.text || this.tableContent,
+            multiSelectNumber: this.tableContent.multiSelectNumber,
+            multiSelectOptions: JSON.stringify(this.tableContent?.multiSelectOptions),
+            selected: false,
         };
     },
     mounted() {

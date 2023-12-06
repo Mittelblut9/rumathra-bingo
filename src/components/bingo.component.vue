@@ -1,7 +1,7 @@
 <template>
     <section class="section-bingo">
         <div class="section-bingo--animation" id="bingo-container">
-            <img :src="getBingoGif()" style="visibility: hidden;"/>
+            <img :src="bingoGif" style="visibility: hidden;"/>
             <h1>{{ snippets.bingoTriggered }}</h1>
             <table class="bg-white show">
                 <tr class="user-select-none text-center fs-3">
@@ -17,12 +17,7 @@
                             <input class="form-check-input multi-select-check-input" :class="`multiSelect-${trIndex}-${tdIndex}`" type="checkbox" value="" />
                             <input class="form-control multi-select-text-input" :class="`multiSelect-${trIndex}-${tdIndex}`" type="text" value="" min="1" max="11" />
                         </div>
-                        <BingoBoxAtom 
-                            :selected="false" 
-                            :text="tableContent.text || tableContent" 
-                            :multiSelectNumber="tableContent.multiSelectNumber"
-                            :multiSelectOptions="JSON.stringify(tableContent?.multiSelectOptions)"
-                        />
+                        <BingoBoxAtom :tableContent="tableContent" />
                     </td>
                 </tr>
             </table>
@@ -31,43 +26,38 @@
 </template>
 
 <script>
+import { getCookie } from '@/assets/js/cookie';
+import { animateBingo, checkIfBingo } from '@/assets/js/bingo';
 import tableData from '@/assets/json/bingo.json';
 import BingoBoxAtom from '@/atoms/bingo-box.atom.vue';
 export default {
     name: 'BingoComponent',
     data() {
         return {
-            tableData: this.getBingoCookie() || tableData.bingo,
+            tableData: getCookie('bingo', this.$route.query.bingo, true) || tableData.bingo,
             bingoTriggered: false,
             snippets: {
                 bingoTriggered: 'BINGO!!'
-            }
+            },
+            bingoGif: getCookie('bingoGif', this.$route.query.bingo)
         };
     },
     mounted() {
-        //set image gif width as the same as the table width
-        const bingoContainer = document.getElementById('bingo-container');
-        const bingoGif = bingoContainer.querySelector('img');
-        const bingoTable = bingoContainer.querySelector('table');
-        bingoGif.style.width = `${bingoTable.offsetWidth - 50}px`;
-
-        //set image gif height as the same as the table height
-        bingoGif.style.height = `${bingoTable.offsetHeight}px`;
+        this.resizeBingoGif();
     },    
     components: {
         BingoBoxAtom
     },
     methods: {
-        getBingoCookie() {
-            const currentQuery = this.$route.query.bingo;
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; bingo${currentQuery}=`);
-            const bingoCookieValue = parts.pop().split(';').shift();
-            try {
-                return JSON.parse(bingoCookieValue);
-            } catch (error) {
-                return null;
-            }
+        resizeBingoGif() {
+            //set image gif width as the same as the table width
+            const bingoContainer = document.getElementById('bingo-container');
+            const bingoGif = bingoContainer.querySelector('img');
+            const bingoTable = bingoContainer.querySelector('table');
+            bingoGif.style.width = `${bingoTable.offsetWidth - 50}px`;
+
+            //set image gif height as the same as the table height
+            bingoGif.style.height = `${bingoTable.offsetHeight}px`;
         },
         rightClickHandler(e) {
             e.preventDefault();
@@ -126,7 +116,7 @@ export default {
             
             if (isMultiSelect && timesPressed > 0)  {
                 color = multiSelectOptions[`color${timesRounds}`];
-            }else {
+            } else {
                 color = multiSelectOptions['color0'];
                 selected = !selected;
             }
@@ -160,132 +150,16 @@ export default {
                 targetDiv.style.backgroundColor = '';
             }
 
-            this.checkIfBingo((isBingo) => {
+            checkIfBingo((isBingo) => {
                 if(isBingo) {
                     if(this.bingoTriggered) {
                         return;
                     }
                     this.bingoTriggered = true;
-                    this.animateBingo();
+                    animateBingo();
                 }
             });
         },
-
-        checkIfBingo(cb) {
-            const table = document.querySelector('.section-bingo table');
-            const tableRows = table.querySelectorAll('.bingo-content');
-            const tableColumns = table.querySelectorAll('td');
-
-            let isBingo = false;
-
-            tableRows.forEach(row => {
-                if(isBingo) {
-                    return;
-                }
-                const rowCells = row.querySelectorAll('td');
-                const rowCellsLength = rowCells.length;
-
-                let rowCellsSelected = 0;
-                rowCells.forEach(cell => {
-                    const input = cell.querySelector('input');
-                    const selected = input.dataset.selected === 'true';
-                    if(selected) {
-                        rowCellsSelected++;
-                    }
-                });
-
-                isBingo = rowCellsSelected === rowCellsLength;
-
-                cb(isBingo);
-            });
-
-            tableColumns.forEach(column => {
-                if(isBingo) {
-                    return;
-                }
-                const columnCells = table.querySelectorAll(`td:nth-child(${column.cellIndex + 1})`);
-                const columnCellsLength = columnCells.length;
-
-                let columnCellsSelected = 0;
-                columnCells.forEach(cell => {
-                    const input = cell.querySelector('input');
-                    const selected = input.dataset.selected === 'true';
-                    if(selected) {
-                        columnCellsSelected++;
-                    }
-                });
-
-                isBingo = columnCellsSelected === columnCellsLength;
-                cb(isBingo);
-            });
-
-            const diagonale = () => {
-                const firstCell = table.querySelector('.bingo-content:nth-child(2) td:first-child');
-                const secondCell = table.querySelector('.bingo-content:nth-child(3) td:nth-child(2)');
-                const thirdCell = table.querySelector('.bingo-content:nth-child(4) td:nth-child(3)');
-                const fourthCell = table.querySelector('.bingo-content:nth-child(5) td:nth-child(4)');
-                const fifthCell = table.querySelector('.bingo-content:nth-child(6) td:nth-child(5)');
-
-                const firstCellSelected = firstCell.querySelector('input').dataset.selected === 'true';
-                const secondCellSelected = secondCell.querySelector('input').dataset.selected === 'true';
-                const thirdCellSelected = thirdCell.querySelector('input').dataset.selected === 'true';
-                const fourthCellSelected = fourthCell.querySelector('input').dataset.selected === 'true';
-                const fifthCellSelected = fifthCell.querySelector('input').dataset.selected === 'true';
-
-                return firstCellSelected && secondCellSelected && thirdCellSelected && fourthCellSelected && fifthCellSelected;
-            };
-
-            const diagonale2 = () => {
-                const firstCell = table.querySelector('.bingo-content:nth-child(2) td:nth-child(5)');
-                const secondCell = table.querySelector('.bingo-content:nth-child(3) td:nth-child(4)');
-                const thirdCell = table.querySelector('.bingo-content:nth-child(4) td:nth-child(3)');
-                const fourthCell = table.querySelector('.bingo-content:nth-child(5) td:nth-child(2)');
-                const fifthCell = table.querySelector('.bingo-content:nth-child(6) td:nth-child(1)');
-
-                const firstCellSelected = firstCell.querySelector('input').dataset.selected === 'true';
-                const secondCellSelected = secondCell.querySelector('input').dataset.selected === 'true';
-                const thirdCellSelected = thirdCell.querySelector('input').dataset.selected === 'true';
-                const fourthCellSelected = fourthCell.querySelector('input').dataset.selected === 'true';
-                const fifthCellSelected = fifthCell.querySelector('input').dataset.selected === 'true';
-
-                return firstCellSelected && secondCellSelected && thirdCellSelected && fourthCellSelected && fifthCellSelected;
-            };
-
-            cb(diagonale());
-            cb(diagonale2());
-        },
-
-        animateBingo() {
-            const bingoContainer = document.querySelector('.section-bingo--animation');
-            bingoContainer.classList.add('section-bingo--animation--active');
-
-            bingoContainer.querySelector('h1').style.opacity = 1;
-
-            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
-            let colorIndex = 0;
-            const colorInterval = setInterval(() => {
-                bingoContainer.querySelector('h1').style.color = colors[colorIndex];
-                colorIndex++;
-                if(colorIndex === colors.length) {
-                    colorIndex = 0;
-                }
-            }, 100);
-
-
-            setTimeout(() => {
-                bingoContainer.querySelector('h1').style.opacity = 0;
-                bingoContainer.classList.remove('section-bingo--animation--active');
-                clearInterval(colorInterval);
-            }, 5000);
-        },
-
-        getBingoGif() {
-            const currentQuery = this.$route.query.bingo;
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; bingoGif${currentQuery}=`);
-            const bingoGifValue = parts.pop().split(';').shift().replaceAll('\\', '/');
-            return bingoGifValue;
-        }
     }
 };
 </script>

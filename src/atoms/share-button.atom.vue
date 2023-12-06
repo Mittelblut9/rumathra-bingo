@@ -27,14 +27,18 @@ export default {
             
             const dataString = JSON.stringify(data, null, 2);
             const blob = new Blob([dataString], { type: 'application/json' });
+            
+            this.download(blob);
+        },
 
+        download(blob) {
             const a = document.createElement('a');
             a.download = 'bingo.json';
             a.href = URL.createObjectURL(blob);
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-        },
+        }
     }
 };
 </script>

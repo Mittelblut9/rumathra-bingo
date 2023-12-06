@@ -1,7 +1,12 @@
 <template>
     <div class="mb-3 w-50">
         <label for="hoverImageInput" class="form-label">Das Hover Bild (Gebe einen Discord Link ein) (NUR png oder jpg)</label>
-        <input type="email" class="form-control" id="hoverImageInput" placeholder="https://cdn.discordapp.com/attachments/xxx/xxx/YOUR_IMAGE.png" :value="getImage()">
+        <input 
+            type="email" 
+            class="form-control" 
+            id="hoverImageInput" 
+            placeholder="https://cdn.discordapp.com/attachments/xxx/xxx/YOUR_IMAGE.png" 
+            :value="mouseOverImage">
         <div class="invalid-feedback">
             Please provide a discord image path
         </div>
@@ -12,11 +17,14 @@
 </template>
 
 <script>
+import { getCookie, saveCookie } from '@/assets/js/cookie';
+
 export default {
     name: 'EditMouseOverButtonAtom',
     data() {
         return {
-            validExtensions: ['png', 'jpg', 'jpeg']
+            validExtensions: ['png', 'jpg', 'jpeg'],
+            mouseOverImage: getCookie('hoverImage', this.$route.query.bingo)
         };
     },
     mounted() {
@@ -27,7 +35,7 @@ export default {
             const path = evt.target.value;
             if(!path) {
                 this.validation(true);
-                this.saveImage('');
+                saveCookie('hoverImage', this.$route.query.bingo, '');
                 return;
             }
 
@@ -45,35 +53,14 @@ export default {
             }
 
             this.validation(true);
-            this.saveImage(pathWithoutQuery);
+            saveCookie('hoverImage', this.$route.query.bingo, path);
         },
 
         validation(wasValid) {
-            if(wasValid) {
-                this.$el.querySelector('input').classList.remove('is-invalid');
-                this.$el.querySelector('input').classList.add('is-valid');
-            } else {
-                this.$el.querySelector('input').classList.remove('is-valid');
-                this.$el.querySelector('input').classList.add('is-invalid');
-            }
+            const inputElement = this.$el.querySelector('input');
+            inputElement.classList.remove(wasValid ? 'is-invalid' : 'is-valid');
+            inputElement.classList.add(wasValid ? 'is-valid' : 'is-invalid');
         },
-
-        saveImage(path) {
-            const currentQuery = this.$route.query.bingo;
-            const now = new Date();
-            const expirationDate = new Date();
-            expirationDate.setFullYear(now.getFullYear() + 1);
-            const expires = expirationDate.toUTCString();
-            document.cookie = `hoverImage${currentQuery}=${path}; expires=${expires}; path=/; sameSite=strict;`;
-        },
-
-        getImage() {
-            const currentQuery = this.$route.query.bingo;
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; hoverImage${currentQuery}=`);
-            const hoverImageValue = parts.pop().split(';').shift();
-            return hoverImageValue;
-        }
     }
 };
 </script>

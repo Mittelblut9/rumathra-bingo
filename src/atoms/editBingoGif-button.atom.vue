@@ -1,7 +1,12 @@
 <template>
     <div class="mb-3 w-50">
         <label for="bingoGifInput" class="form-label">Das Bingo Gif (Gebe einen Discord Link ein) (NUR gif)</label>
-        <input type="email" class="form-control" id="bingoGifInput" placeholder="https://cdn.discordapp.com/attachments/xxx/xxx/YOUR_GIF.png" :value="getImage()">
+        <input 
+            type="email" 
+            class="form-control" 
+            id="bingoGifInput" 
+            placeholder="https://cdn.discordapp.com/attachments/xxx/xxx/YOUR_GIF.png" 
+            :value="bingoGif">
         <div class="invalid-feedback">
             Please provide a discord image path
         </div>
@@ -12,11 +17,15 @@
 </template>
 
 <script>
+//eslint-disable-next-line no-unused-vars
+import { getCookie, saveCookie } from '@/assets/js/cookie';
+
 export default {
     name: 'EditMouseOverButtonAtom',
     data() {
         return {
-            validExtensions: ['gif']
+            validExtensions: ['gif'],
+            bingoGif: getCookie('bingoGif', this.$route.query.bingo)
         };
     },
     mounted() {
@@ -45,35 +54,14 @@ export default {
             }
 
             this.validation(true);
-            this.saveImage(pathWithoutQuery);
+            saveCookie('bingoGif', this.$route.query.bingo, path);
         },
 
         validation(wasValid) {
-            if(wasValid) {
-                this.$el.querySelector('input').classList.remove('is-invalid');
-                this.$el.querySelector('input').classList.add('is-valid');
-            } else {
-                this.$el.querySelector('input').classList.remove('is-valid');
-                this.$el.querySelector('input').classList.add('is-invalid');
-            }
+            const inputElement = this.$el.querySelector('input');
+            inputElement.classList.remove(wasValid ? 'is-invalid' : 'is-valid');
+            inputElement.classList.add(wasValid ? 'is-valid' : 'is-invalid');
         },
-
-        saveImage(path) {
-            const currentQuery = this.$route.query.bingo;
-            const now = new Date();
-            const expirationDate = new Date();
-            expirationDate.setFullYear(now.getFullYear() + 1);
-            const expires = expirationDate.toUTCString();
-            document.cookie = `bingoGif${currentQuery}=${path}; expires=${expires}; path=/; sameSite=strict;`;
-        },
-
-        getImage() {
-            const currentQuery = this.$route.query.bingo;
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; bingoGif${currentQuery}=`);
-            const bingoGifValue = parts.pop().split(';').shift();
-            return bingoGifValue;
-        }
     }
 };
 </script>

@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import { saveCookie } from '@/assets/js/cookie';
+
 export default {
     name: 'SaveButtonAtom',
     methods: {
@@ -24,18 +26,9 @@ export default {
             }
             //remove the first data in the array, cause its the header
             data.shift();
-            this.saveCookie(data);
+            saveCookie('bingo', this.$route.query.bingo, data);
             alert('Successfully saved!');
         },
-
-        saveCookie(data) {
-            const currentQuery = this.$route.query.bingo;
-            const now = new Date();
-            const expirationDate = new Date();
-            expirationDate.setFullYear(now.getFullYear() + 1);
-            const expires = expirationDate.toUTCString();
-            document.cookie = `bingo${currentQuery}=${JSON.stringify(data)}; expires=${expires}; path=/; sameSite=strict;`;
-        }
     }
 };
 </script>
