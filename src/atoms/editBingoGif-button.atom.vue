@@ -36,7 +36,7 @@ export default {
             const path = evt.target.value;
             if(!path) {
                 this.validation(true);
-                this.saveImage('');
+                saveCookie('bingoGif', this.$route.query.bingo, '');
                 return;
             }
 
