@@ -64,7 +64,6 @@ export default {
     },
     methods: {
         showSettings() {
-            console.log(document.querySelector('.bingo-settings'));
             document.querySelector('.bingo-settings').classList.toggle('active');
         },
     },
