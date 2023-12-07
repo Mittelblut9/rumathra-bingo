@@ -1,18 +1,26 @@
 <template>
   <div v-if="show" class="d-grid">
     <BingoComponent />
-    <div class="d-flex m-5 mx-2 row">
-      <div class="col-2 d-flex">
-        <SaveButtonAtom class="w-100"/>
-        <EditButtonAtom class="ps-3 w-100"/>
+    <div class="bingo-settings d-grid m-5 mx-2 position-fixed left-50 bottom-0 w-100">
+      <div class="bingo-settings-trigger cursor-pointer">
+        <div class="d-grid me-5" style="justify-items: center;">
+          <img width="26" height="26" src="https://img.icons8.com/metro/52/down--v1.png" alt="down--v1" @click="showSettings"/>
+          <p @click="showSettings">Settings</p>
+        </div>
       </div>
-      <div class="col-6">
-        <EditMouseOverButtonAtom class="w-100" />
-        <EditBingoGifButtonAtom  class="w-100"/>
-      </div>
-      <div class="col-4">
-        <ShareButtonAtom class="w-100 mb-3" />
-        <ImportButtonAtom class="w-100"/>
+      <div class="row">
+        <div class="col-2 d-flex">
+          <SaveButtonAtom class="w-100"/>
+          <EditButtonAtom class="ps-3 w-100"/>
+        </div>
+        <div class="col-6">
+          <EditMouseOverButtonAtom class="w-100" />
+          <EditBingoGifButtonAtom  class="w-100"/>
+        </div>
+        <div class="col-4">
+          <ShareButtonAtom class="w-100 mb-3" />
+          <ImportButtonAtom class="w-100"/>
+        </div>
       </div>
     </div>
   </div>
@@ -53,6 +61,12 @@ export default {
         if (isQueries) {
             this.show = true;
         }
+    },
+    methods: {
+        showSettings() {
+            console.log(document.querySelector('.bingo-settings'));
+            document.querySelector('.bingo-settings').classList.toggle('active');
+        },
     },
 };
 </script>
