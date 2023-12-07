@@ -1,5 +1,5 @@
 .section-bingo {
-    height: 90vh;
+    height: 100vh;
     
     table {
         th {
@@ -45,6 +45,30 @@
                 input:last-child {
                     margin-left: 1rem;
                 }	
+            }
+        }
+    }
+}
+
+.bingo-settings {
+    transform: translateY(220px);
+    transition: .2s ease-in-out;
+
+    .bingo-settings-trigger {
+        width: 5%;
+        
+        img {
+            transition: .2s ease-in-out;
+            transform: rotate(180deg);
+        }
+    }
+
+    &.active {
+        transform: translateY(0);
+
+        .bingo-settings-trigger {
+            img {
+                transform: rotate(0deg);
             }
         }
     }
