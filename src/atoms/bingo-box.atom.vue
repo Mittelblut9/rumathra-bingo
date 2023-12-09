@@ -33,10 +33,8 @@ export default {
         };
     },
     mounted() {
-        this.$nextTick(() => {
-            const el = this.$el;
-            this.changeFontSize(el);
-        });
+        const el = this.$el;
+        this.changeFontSize(el);
         this.$el.nextElementSibling.nextElementSibling.addEventListener('input', () => {
             const el = this.$el;
             this.changeFontSize(el);
@@ -57,16 +55,14 @@ export default {
             const isMultiSelect = parseInt(pTag.previousElementSibling.dataset.multiSelectNumber)  > 0;
             const text = pTag.innerHTML;
 
-            if(text.length < 7) {
+            if(text.length < 12) {
                 pTag.style.fontSize = '2rem';
+                return;
             }
 
-            const maxTextLength = isMultiSelect ? 20 : 40;
-            if(text.length > maxTextLength) {
-                const devider = isMultiSelect ? 40 : 60;
-                const fontSize = devider / text.length;
-                pTag.style.fontSize = `${fontSize}rem`;
-            }
+            const devider = isMultiSelect ? 40 : 30;
+            const fontSize = devider / text.length;
+            pTag.style.fontSize = `${fontSize}rem`;
 
             text.split(' ').forEach(word => {
                 const wordLength = word.length;
@@ -76,6 +72,8 @@ export default {
                     pTag.style.fontSize = `${fontSize}rem`;
                 }
             });
+
+
         },
     }
 };
