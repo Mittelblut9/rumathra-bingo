@@ -21,7 +21,6 @@ export default {
     name: 'BingoBoxAtom',
     props: {
         tableContent: {
-            type: Object,
             required: true
         }
     },
