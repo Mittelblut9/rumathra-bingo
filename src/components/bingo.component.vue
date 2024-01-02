@@ -70,12 +70,35 @@ export default {
         };
     },
     mounted() {
+        this.getBingo();
+        setInterval(() => {
+            this.getBingo();
+        }, 2000);
+        
+        this.listenToUpdates();
         this.resizeBingoGif();
     },    
     components: {
         BingoBoxAtom
     },
     methods: {
+        getBingo() {
+            this.$root.socket.emit('Server:GetProject', this.$route.query.bingo.replaceAll(' ', ''));
+
+            this.$root.socket.on('Client:GetProject:Success', (data) => {
+                this.tableData = data.data.bingo;
+            });
+
+            this.$root.socket.on('Client:GetProject:Error', (err) => {
+                console.error(err);
+            });
+        },
+        //todo
+        // listenToUpdates() {
+        //     this.$root.socket.on('Client:UpdateAll', (data) => {
+        //         this.tableData = data.data.bingo;
+        //     });
+        // },
         resizeBingoGif() {
             //set image gif width as the same as the table width
             const bingoContainer = document.getElementById('bingo-container');

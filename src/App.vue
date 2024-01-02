@@ -3,10 +3,13 @@
 </template>
 
 <script>
+import socket from '@/assets/js/websocket';
+
 export default {
     name: 'App',
     data() {
         return {
+            socket,
             edit: false
         };
     },
