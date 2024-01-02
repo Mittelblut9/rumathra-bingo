@@ -75,7 +75,7 @@ export default {
             this.getBingo();
         }, 2000);
         
-        this.listenToUpdates();
+        // this.listenToUpdates();
         this.resizeBingoGif();
     },    
     components: {
@@ -83,6 +83,9 @@ export default {
     },
     methods: {
         getBingo() {
+            if(!this.$root.socket) {
+                return;
+            }
             this.$root.socket.emit('Server:GetProject', this.$route.query.bingo.replaceAll(' ', ''));
 
             this.$root.socket.on('Client:GetProject:Success', (data) => {
