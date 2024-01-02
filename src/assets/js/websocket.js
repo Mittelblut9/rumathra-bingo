@@ -1,4 +1,9 @@
 import { io } from 'socket.io-client';
+
+if(!process.env.VUE_APP_WEBSOCKET_URL) {
+    throw new Error('VUE_APP_WEBSOCKET_URL is not defined');
+}
+
 const socket = io(process.env.VUE_APP_WEBSOCKET_URL, {
     reconnectionAttempts: 'Infinity',
     timeout: 10000,
